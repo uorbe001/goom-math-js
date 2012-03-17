@@ -43,7 +43,7 @@ var Vector3D = (function() {
 
 	/**
 		Adds two vectors, if a destination vector is given data is stored in the
-		destination matrix and it's returned, otherwise, it's stored in this matrix
+		destination matrix and it"s returned, otherwise, it"s stored in this matrix
 		and this is returned.
 		@param {Math.Vector3D} vector The second vector to add.
 		@param {Math.Vector3D} [destination=this] The vector where data will be stored. If none
