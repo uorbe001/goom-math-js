@@ -1,0 +1,5 @@
+{
+	"name": "thorn-math",
+	"version": "0.0.1",
+	"dependencies": {"requirejs": ">=1.0.7", "jasmine-node": ">=1.0.22", "jake": ">=0.2.28"}
+}
