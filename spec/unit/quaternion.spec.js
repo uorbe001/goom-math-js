@@ -1,7 +1,7 @@
 var requirejs = require("requirejs");
 requirejs.config({nodeRequire: require});
 
-requirejs(["../../src/quaternion", "../../src/vector3d"], function() {
+requirejs(["../../src/quaternion"], function() {
 	describe("Math.Quaternion", function() {
 		beforeEach(function() {
 			this.q = new Math.Quaternion();
