@@ -31,6 +31,7 @@ define(function(require) {
 			this.x = x;
 			this.y = y;
 			this.z = z;
+			return this;
 		};
 
 		/**

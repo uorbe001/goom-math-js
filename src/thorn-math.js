@@ -1,1 +1,1 @@
-requirejs(["./vector3d", "./quaternion"]);
+requirejs(["./vector3d", "./quaternion", "./matrix3d", "./matrix4d"]);

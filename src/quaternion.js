@@ -35,6 +35,21 @@ define(["./vector3d"], function(require) {
 		};
 
 		/**
+			Sets the values in this quaternion.
+			@param {Number} r
+			@param {Number} i
+			@param {Number} j
+			@param {Number} k
+		*/
+		Quaternion.prototype.set = function(r, i, j, k) {
+			this.r = r;
+			this.i = i;
+			this.j = j;
+			this.k = k;
+			return this;
+		};
+
+		/**
 			Normalizes the quaternion, makeing it a valid orientation quaternion.
 			@returns {Math.Quaternion} This quaternion normalized.
 		*/
