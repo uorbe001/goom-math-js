@@ -18,10 +18,10 @@ define(["./vector3d"], function(require) {
 	*/
 	var Quaternion = (function() {
 		function Quaternion(r, i, j, k) {
-			this.r = r? r : 1;
-			this.i = i? i : 0;
-			this.j = j? j : 0;
-			this.k = k? k : 0;
+			this.r = r !== null && r !== undefined? r : 1;
+			this.i = i !== null && i !== undefined? i : 0;
+			this.j = j !== null && j !== undefined? j : 0;
+			this.k = k !== null && k !== undefined? k : 0;
 		}
 
 		/**
@@ -36,7 +36,7 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Normalizes the quaternion, makeing it a valid orientation quaternion.
-			@returns {Quaternion} This quaternion normalized.
+			@returns {Math.Quaternion} This quaternion normalized.
 		*/
 		Quaternion.prototype.normalize = function() {
 			var length = this.r * this.r + this.i * this.i + this.j * this.j + this.k * this.k;
@@ -57,9 +57,9 @@ define(["./vector3d"], function(require) {
 		/**
 			Multiplies two quaternions, storing new values on the first one if no destination
 			quaternion is given.
-			@param {Quaternion} quaternion The quaternion to multiply by.
-			@param {Quaternion} [destination=this] The quaternion to store the data in.
-			@returns {Quaternion} The quaternion holding the new data.
+			@param {Math.Quaternion} quaternion The quaternion to multiply by.
+			@param {Math.Quaternion} [destination=this] The quaternion to store the data in.
+			@returns {Math.Quaternion} The quaternion holding the new data.
 		*/
 		Quaternion.prototype.multiply = function(quaternion, destination) {
 			if (destination === null || destination === undefined) destination = this;
@@ -77,18 +77,17 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Rotates the quaternion by a vector.
-			@param {Vector3D} vector the vector to rotate by.
-			@param {Quaternion} [destination=this] The quaternion to store the data in.
-			@returns {Quaternion} The quaternion holding the new data.
+			@param {Math.Vector3D} vector the vector to rotate by.
+			@param {Math.Quaternion} [destination=this] The quaternion to store the data in.
+			@returns {Math.Quaternion} The quaternion holding the new data.
 		*/
 		Quaternion.prototype.rotateByVector = function(vector, destination) {
 			if (destination === null || destination === undefined) destination = this;
+			var r = -this.i * vector.x - this.j * vector.y - this.k * vector.z;
+			var i = this.r * vector.x + this.j * vector.z - this.k * vector.y;
+			var j = this.r * vector.y + this.k * vector.x - this.i * vector.z;
 
-			var r = -vector.x * destination.i - vector.y * destination.j - vector.z * destination.k;
-			var i = vector.x * destination.r + vector.y * destination.k - vector.z * destination.j;
-			var j = vector.y * destination.r + vector.z * destination.i - vector.x * destination.k;
-
-			destination.k = vector.z * destination.r + vector.x * destination.j - vector.y * destination.i;
+			destination.k = this.r * vector.z + this.i * vector.y - this.j * vector.x;
 			destination.r = r;
 			destination.i = i;
 			destination.j = j;
@@ -97,9 +96,9 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Adds the given vector to this.
-			@param {Vector3D} vector The vector to add.
-			@param {Quaternion} [destination=this] The quaternion to store the data in.
-			@returns {Quaternion} The quaternion holding the new data.
+			@param {Math.Vector3D} vector The vector to add.
+			@param {Math.Quaternion} [destination=this] The quaternion to store the data in.
+			@returns {Math.Quaternion} The quaternion holding the new data.
 		*/
 		Quaternion.prototype.addVector = function(vector, destination) {
 			if (destination === null || destination === undefined) destination = this;
@@ -109,10 +108,10 @@ define(["./vector3d"], function(require) {
 			var j = vector.y * this.r + vector.z * this.i - vector.x * this.k;
 			var k = vector.z * this.r + vector.x * this.j - vector.y * this.i;
 
-			destination.r += r * 0.5;
-			destination.i += i * 0.5;
-			destination.j += j * 0.5;
-			destination.k += k * 0.5;
+			destination.r = this.r + r * 0.5;
+			destination.i = this.i + i * 0.5;
+			destination.j = this.j + j * 0.5;
+			destination.k = this.k + k * 0.5;
 			return destination;
 		};
 

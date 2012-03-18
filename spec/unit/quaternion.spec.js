@@ -44,9 +44,9 @@ requirejs(["../../src/quaternion", "../../src/vector3d"], function() {
 			expect(this.q.i).toBe(7);
 			expect(this.q.j).toBe(1);
 			expect(this.q.k).toBe(3);
-			expect(q2.r).toBe(0);
+			expect(q2.r).toBe(2);
 			expect(q2.i).toBe(3);
-			expect(q2.j).toBe(2);
+			expect(q2.j).toBe(0);
 			expect(q2.k).toBe(1);
 		});
 		
@@ -74,7 +74,11 @@ requirejs(["../../src/quaternion", "../../src/vector3d"], function() {
 		});
 
 		it("rotates the quaternion by a vector and stores it in itself", function() {
-			var q1 = new Math.Quaternion();
+			this.q.r = 1;
+			this.q.i = 2;
+			this.q.j = 3;
+			this.q.k = 4;
+			var q1 = new Math.Quaternion(1, 2, 3, 4);
 			var q2 = new Math.Quaternion(0, 1, 2, 3);
 			var v = new Math.Vector3D(1, 2, 3);
 			this.q.rotateByVector(v);
@@ -89,7 +93,11 @@ requirejs(["../../src/quaternion", "../../src/vector3d"], function() {
 		});
 
 		it("rotates the quaternion by a vector and stores it the destination", function() {
-			var q1 = new Math.Quaternion();
+			this.q.r = 1;
+			this.q.i = 2;
+			this.q.j = 3;
+			this.q.k = 4;
+			var q1 = new Math.Quaternion(1, 2, 3, 4);
 			var dest = new Math.Quaternion();
 			var q2 = new Math.Quaternion(0, 1, 2, 3);
 			var v = new Math.Vector3D(1, 2, 3);
@@ -100,44 +108,52 @@ requirejs(["../../src/quaternion", "../../src/vector3d"], function() {
 			expect(dest.j).toBe(q1.j);
 			expect(dest.k).toBe(q1.k);
 			expect(this.q.r).toBe(1);
-			expect(this.q.i).toBe(0);
-			expect(this.q.j).toBe(0);
-			expect(this.q.k).toBe(0);
+			expect(this.q.i).toBe(2);
+			expect(this.q.j).toBe(3);
+			expect(this.q.k).toBe(4);
 			expect(v.x).toBe(1);
 			expect(v.y).toBe(2);
 			expect(v.z).toBe(3);
 		});
 
 		it("adds a vector to the quaternion by a vector and stores it in itself", function() {
-			var q1 = new Math.Quaternion();
+			this.q.r = 1;
+			this.q.i = 2;
+			this.q.j = 3;
+			this.q.k = 4;
+			var q1 = new Math.Quaternion(1, 2, 3, 4);
 			var q2 = new Math.Quaternion(0, 1, 2, 3);
 			var v = new Math.Vector3D(1, 2, 3);
 			this.q.addVector(v);
-			q1.multiply(q2);
-			expect(this.q.r).toBe(1 + q1.r * 0.5);
-			expect(this.q.i).toBe(q1.i * 0.5);
-			expect(this.q.j).toBe(q1.j * 0.5);
-			expect(this.q.k).toBe(q1.k * 0.5);
+			q2.multiply(q1);
+			expect(this.q.r).toBe(1 + q2.r * 0.5);
+			expect(this.q.i).toBe(2 + q2.i * 0.5);
+			expect(this.q.j).toBe(3 + q2.j * 0.5);
+			expect(this.q.k).toBe(4 + q2.k * 0.5);
 			expect(v.x).toBe(1);
 			expect(v.y).toBe(2);
 			expect(v.z).toBe(3);
 		});
 
 		it("adds a vector to the quaternion by a vector and stores it the destination", function() {
-			var q1 = new Math.Quaternion();
+			this.q.r = 1;
+			this.q.i = 2;
+			this.q.j = 3;
+			this.q.k = 4;
+			var q1 = new Math.Quaternion(1, 2, 3, 4);
 			var dest = new Math.Quaternion();
 			var q2 = new Math.Quaternion(0, 1, 2, 3);
 			var v = new Math.Vector3D(1, 2, 3);
 			this.q.addVector(v, dest);
-			q1.multiply(q2);
-			expect(dest.r).toBe(1 + q1.r * 0.5);
-			expect(dest.i).toBe(q1.i * 0.5);
-			expect(dest.j).toBe(q1.j * 0.5);
-			expect(dest.k).toBe(q1.k * 0.5);
+			q2.multiply(q1);
+			expect(dest.r).toBe(1 + q2.r * 0.5);
+			expect(dest.i).toBe(2 + q2.i * 0.5);
+			expect(dest.j).toBe(3 + q2.j * 0.5);
+			expect(dest.k).toBe(4 + q2.k * 0.5);
 			expect(this.q.r).toBe(1);
-			expect(this.q.i).toBe(0);
-			expect(this.q.j).toBe(0);
-			expect(this.q.k).toBe(0);
+			expect(this.q.i).toBe(2);
+			expect(this.q.j).toBe(3);
+			expect(this.q.k).toBe(4);
 			expect(v.x).toBe(1);
 			expect(v.y).toBe(2);
 			expect(v.z).toBe(3);

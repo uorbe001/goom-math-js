@@ -2,7 +2,7 @@ if (typeof define !== 'function') {
 	var define = require('amdefine')(module);
 }
 
-define("vector3d", function(require) {
+define(function(require) {
 	/**
 		Creates a new Vector3D, used to store positions in the 3D world.
 		@class Represents a position in the 3D world.
@@ -16,9 +16,9 @@ define("vector3d", function(require) {
 	*/
 	var Vector3D = (function() {
 		function Vector3D(x, y, z) {
-			this.x = x? x: 0;
-			this.y = y? y: 0;
-			this.z = z? z: 0;
+			this.x = x !== null && x !== undefined? x: 0;
+			this.y = y !== null && y !== undefined? y: 0;
+			this.z = z !== null && z !== undefined? z: 0;
 		}
 
 		/**
