@@ -2,13 +2,13 @@ if (typeof define !== 'function') {
 	var define = require('amdefine')(module);
 }
 
-define(["./vector3d"], function(require) {
+define(["./vector3d"], function(Vector3D) {
 	/**
 		Creates a new Matrix3D, used through the engine to feed data to the vertex and store
 		transformation data.
 		@class This is a 3x3 matrix.
 		@property {data} [data=identity] Array holding the data in the matrix.
-		@exports Matrix3D as Math.Matrix3D
+		@exports Matrix3D as Mathematics.Matrix3D
 	*/
 	var Matrix3D = (function() {
 		function Matrix3D() {
@@ -23,11 +23,11 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Creates a copy of this matrix or copies this matrix's data into the given matrix.
-			@param {Math.Matrix3D} [destination=this] The matrix to store the data.
-			@returns {Math.Matrix3D} Copy of this matrix.
+			@param {Mathematics.Matrix3D} [destination=this] The matrix to store the data.
+			@returns {Mathematics.Matrix3D} Copy of this matrix.
 		*/
 		Matrix3D.prototype.clone = function(destination) {
-			if (destination === null || destination === undefined) destination = new Math.Matrix3D();
+			if (destination === null || destination === undefined) destination = new Matrix3D();
 			
 			for (var i = 0; i <= 8; i++) {
 				destination.data[i] = this.data[i];
@@ -38,10 +38,10 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Makes this matrix a matrix created from 3 vectors.
-			@param {Math.Vector3D} vector1 The first vector to create the matrix from.
-			@param {Math.Vector3D} vector2 The second vector to create the matrix from.
-			@param {Math.Vector3D} vector3 The third vector to create the matrix from.
-			@returns {Math.Matrix3D} This matrix with the new data.
+			@param {Mathematics.Vector3D} vector1 The first vector to create the matrix from.
+			@param {Mathematics.Vector3D} vector2 The second vector to create the matrix from.
+			@param {Mathematics.Vector3D} vector3 The third vector to create the matrix from.
+			@returns {Mathematics.Matrix3D} This matrix with the new data.
 		*/
 		Matrix3D.prototype.makeFromVectors = function(vector1, vector2, vector3) {
 			this.data[0] = vector1.x;
@@ -58,8 +58,8 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Makes this matrix a skew symmetric based on the given vector.
-			@param {Math.Vector3D} vector The vector to base this matrix on.
-			@return {Math.Matrix3D} This matrix transformed into the skew symmetric.
+			@param {Mathematics.Vector3D} vector The vector to base this matrix on.
+			@return {Mathematics.Matrix3D} This matrix transformed into the skew symmetric.
 		*/
 		Matrix3D.prototype.makeSkewSymmetric = function(vector) {
 			this.data[0] = this.data[4] = this.data[8] = 0;
@@ -74,7 +74,7 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Makes this matrix the identity matrix.
-			@returns {Math.Matrix3D} This matrix as identity matrix.
+			@returns {Mathematics.Matrix3D} This matrix as identity matrix.
 		*/
 		Matrix3D.prototype.makeIdentity = function() {
 			for (var i = 0; i <= 8; i++) {
@@ -87,8 +87,8 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Makes this matrix its own transpose and returns it.
-			@param {Math.Matrix3D} [destination=this] The matrix to store the data.
-			@returns {Math.Matrix3D} This matrix transposed.
+			@param {Mathematics.Matrix3D} [destination=this] The matrix to store the data.
+			@returns {Mathematics.Matrix3D} This matrix transposed.
 		*/
 		Matrix3D.prototype.transpose = function(destination) {
 			if (destination === null || destination === undefined) destination = this;
@@ -110,8 +110,8 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Calculates this matrix's inverse and returns it.
-			@param {Math.Matrix3D} [destination=this] The matrix to store the data.
-			@returns {Math.Matrix3D} The matrix with the inversed data.
+			@param {Mathematics.Matrix3D} [destination=this] The matrix to store the data.
+			@returns {Mathematics.Matrix3D} The matrix with the inversed data.
 		*/
 		Matrix3D.prototype.inverse = function(destination) {
 			if (destination === null || destination === undefined) destination = this;
@@ -163,9 +163,9 @@ define(["./vector3d"], function(require) {
 			Adds the given matrix to this matrix, if destination is given it will store
 			the new matrix in destination and return it, otherwise it will store and
 			return this matrix.
-			@param {Math.Matrix3D} matrix The matrix to compute with.
-			@param {Math.Matrix3D} destination The matrix where result is stored.
-			@returns {Math.Matrix3D} Result of the addition, this unless destination is given.
+			@param {Mathematics.Matrix3D} matrix The matrix to compute with.
+			@param {Mathematics.Matrix3D} destination The matrix where result is stored.
+			@returns {Mathematics.Matrix3D} Result of the addition, this unless destination is given.
 		*/
 		Matrix3D.prototype.add = function(matrix, destination) {
 			if (destination === null || destination === undefined) destination = this;
@@ -180,9 +180,9 @@ define(["./vector3d"], function(require) {
 			Multiplies given matrix to this matrix, ig destination is given it will store
 			the new matrix in the destination matrix and return it, it will store and
 			return this matrix otherwise.
-			@param {Math.Matrix3D} matrix The matrix to compute with.
-			@param {Math.Matrix3D} [destination] The matrix where result is stored.
-			@returns {Math.Matrix3D} Result of the multiplication, this unless destination
+			@param {Mathematics.Matrix3D} matrix The matrix to compute with.
+			@param {Mathematics.Matrix3D} [destination] The matrix where result is stored.
+			@returns {Mathematics.Matrix3D} Result of the multiplication, this unless destination
 			is given.
 		*/
 		Matrix3D.prototype.multiply = function(matrix, destination) {
@@ -215,8 +215,8 @@ define(["./vector3d"], function(require) {
 		/**
 			Scales this amtrix by the given scalar.
 			@param {Number} scalar The Number to scale the matrix by.
-			@param {Math.Matrix3D} [destination=this] The matrix where result is stored.
-			@returns {Math.Matrix3D} Scaled matrix, this unless destination
+			@param {Mathematics.Matrix3D} [destination=this] The matrix where result is stored.
+			@returns {Mathematics.Matrix3D} Scaled matrix, this unless destination
 			is given.
 		*/
 		Matrix3D.prototype.scale = function(scalar, destination) {
@@ -231,8 +231,8 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Transforms the given vector by this matrix.
-			@param {Math.Vector3D} vector The vector to be transformed by this matrix.
-			@returns {Math.Vector3D} The transformed vector.
+			@param {Mathematics.Vector3D} vector The vector to be transformed by this matrix.
+			@returns {Mathematics.Vector3D} The transformed vector.
 		*/
 		Matrix3D.prototype.transformVector = function(vector) {
 			var x = vector.x * this.data[0] + vector.y * this.data[3] + vector.z * this.data[6];
@@ -245,8 +245,8 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Transforms the given vector by the transpose of this matrix.
-			@param {Math.Vector3D} vector The vector to be transformed.
-			@returns {Math.Vector3D} The transformed vector.
+			@param {Mathematics.Vector3D} vector The vector to be transformed.
+			@returns {Mathematics.Vector3D} The transformed vector.
 		*/
 		Matrix3D.prototype.transformTransposeVector = function(vector) {
 			var x = vector.x * this.data[0] + vector.y * this.data[1] + vector.z * this.data[2];
@@ -257,7 +257,8 @@ define(["./vector3d"], function(require) {
 			return vector;
 		};
 
-		Math.Matrix3D = Matrix3D;
 		return Matrix3D;
 	})();
+
+	return Matrix3D;
 });

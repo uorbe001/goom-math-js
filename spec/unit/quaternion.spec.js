@@ -1,10 +1,10 @@
 var requirejs = require("requirejs");
 requirejs.config({nodeRequire: require});
 
-requirejs(["../../src/quaternion"], function() {
-	describe("Math.Quaternion", function() {
+requirejs(["../../src/quaternion", "../../src/vector3d"], function(Quaternion, Vector3D) {
+	describe("Quaternion", function() {
 		beforeEach(function() {
-			this.q = new Math.Quaternion();
+			this.q = new Quaternion();
 		});
 
 		it("creates a identity quaternion", function() {
@@ -36,7 +36,7 @@ requirejs(["../../src/quaternion"], function() {
 			this.q.i = 2;
 			this.q.j = 0;
 			this.q.k = 1;
-			var q2 = new Math.Quaternion(2, 3, 0, 1);
+			var q2 = new Quaternion(2, 3, 0, 1);
 
 			this.q.multiply(q2);
 
@@ -55,9 +55,9 @@ requirejs(["../../src/quaternion"], function() {
 			this.q.i = 2;
 			this.q.j = 0;
 			this.q.k = 1;
-			var q2 = new Math.Quaternion(2, 3, 0, 1);
+			var q2 = new Quaternion(2, 3, 0, 1);
 
-			destination = new Math.Quaternion();
+			destination = new Quaternion();
 			this.q.multiply(q2, destination);
 			expect(this.q.r).toBe(1);
 			expect(this.q.i).toBe(2);
@@ -78,9 +78,9 @@ requirejs(["../../src/quaternion"], function() {
 			this.q.i = 2;
 			this.q.j = 3;
 			this.q.k = 4;
-			var q1 = new Math.Quaternion(1, 2, 3, 4);
-			var q2 = new Math.Quaternion(0, 1, 2, 3);
-			var v = new Math.Vector3D(1, 2, 3);
+			var q1 = new Quaternion(1, 2, 3, 4);
+			var q2 = new Quaternion(0, 1, 2, 3);
+			var v = new Vector3D(1, 2, 3);
 			this.q.rotateByVector(v);
 			q1.multiply(q2);
 			expect(this.q.r).toBe(q1.r);
@@ -97,10 +97,10 @@ requirejs(["../../src/quaternion"], function() {
 			this.q.i = 2;
 			this.q.j = 3;
 			this.q.k = 4;
-			var q1 = new Math.Quaternion(1, 2, 3, 4);
-			var dest = new Math.Quaternion();
-			var q2 = new Math.Quaternion(0, 1, 2, 3);
-			var v = new Math.Vector3D(1, 2, 3);
+			var q1 = new Quaternion(1, 2, 3, 4);
+			var dest = new Quaternion();
+			var q2 = new Quaternion(0, 1, 2, 3);
+			var v = new Vector3D(1, 2, 3);
 			this.q.rotateByVector(v, dest);
 			q1.multiply(q2);
 			expect(dest.r).toBe(q1.r);
@@ -121,9 +121,9 @@ requirejs(["../../src/quaternion"], function() {
 			this.q.i = 2;
 			this.q.j = 3;
 			this.q.k = 4;
-			var q1 = new Math.Quaternion(1, 2, 3, 4);
-			var q2 = new Math.Quaternion(0, 1, 2, 3);
-			var v = new Math.Vector3D(1, 2, 3);
+			var q1 = new Quaternion(1, 2, 3, 4);
+			var q2 = new Quaternion(0, 1, 2, 3);
+			var v = new Vector3D(1, 2, 3);
 			this.q.addVector(v);
 			q2.multiply(q1);
 			expect(this.q.r).toBe(1 + q2.r * 0.5);
@@ -140,10 +140,10 @@ requirejs(["../../src/quaternion"], function() {
 			this.q.i = 2;
 			this.q.j = 3;
 			this.q.k = 4;
-			var q1 = new Math.Quaternion(1, 2, 3, 4);
-			var dest = new Math.Quaternion();
-			var q2 = new Math.Quaternion(0, 1, 2, 3);
-			var v = new Math.Vector3D(1, 2, 3);
+			var q1 = new Quaternion(1, 2, 3, 4);
+			var dest = new Quaternion();
+			var q2 = new Quaternion(0, 1, 2, 3);
+			var v = new Vector3D(1, 2, 3);
 			this.q.addVector(v, dest);
 			q2.multiply(q1);
 			expect(dest.r).toBe(1 + q2.r * 0.5);

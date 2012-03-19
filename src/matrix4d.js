@@ -2,17 +2,17 @@ if (typeof define !== 'function') {
 	var define = require('amdefine')(module);
 }
 
-define(["./vector3d", "./quaternion"], function(require) {
+define(["./vector3d", "./quaternion"], function(Vector3D, Quaternion) {
 	/**
 		Creates a new Matrix4D, used through the engine to feed data to the vertex and store
 		transformation data.
 		@class This is a 4x4 matrix.
 		@property {data} [data=identity] the data in the matrix.
-		@exports Matrix4D as Math.Matrix4D
+		@exports Matrix4D as Mathematics.Matrix4D
 	*/
 	var Matrix4D = (function() {
 		function Matrix4D() {
-			if (typeof Float32Array !== "undefined" && Float32Array !== null) {
+			if (typeof Float32Array !== undefined && Float32Array !== null) {
 				this.data = new Float32Array(16);
 			} else {
 				this.data = new Array(16);
@@ -23,11 +23,11 @@ define(["./vector3d", "./quaternion"], function(require) {
 
 		/**
 			Creates a copy of this matrix or sets the destination matrix to be a copy of this matrix.
-			@returns {Math.Matrix4D} Copy of this matrix.
-			@param {Math.Matrix4D} [destination] The matrix where data will be stored.
+			@returns {Mathematics.Matrix4D} Copy of this matrix.
+			@param {Mathematics.Matrix4D} [destination] The matrix where data will be stored.
 		*/
 		Matrix4D.prototype.clone = function(destination) {
-			if (destination === null || destination === undefined) destination = new Math.Matrix4D();
+			if (destination === null || destination === undefined) destination = new Matrix4D();
 			
 			for (var i = 0; i <= 15; i++) {
 				destination.data[i] = this.data[i];
@@ -37,7 +37,7 @@ define(["./vector3d", "./quaternion"], function(require) {
 
 		/**
 			Makes this matrix the identity matrix.
-			@returns {Math.Matrix4D} This matrix as identity matrix.
+			@returns {Mathematics.Matrix4D} This matrix as identity matrix.
 		*/
 		Matrix4D.prototype.makeIdentity = function() {
 			for (var i = 0; i <= 15; i++) {
@@ -54,7 +54,7 @@ define(["./vector3d", "./quaternion"], function(require) {
 			@param {Number} x The value in the x coordinate axis to translate by.
 			@param {Number} y The value in the y coordinate axis to translate by.
 			@param {Number} z The value in the z coordinate axis to translate by.
-			@returns {Math.Matrix4D} This matrix as a translation matrix.
+			@returns {Mathematics.Matrix4D} This matrix as a translation matrix.
 			@see Matrix4D#translate
 		*/
 		Matrix4D.prototype.makeTranslation = function(x, y, z) {
@@ -71,8 +71,8 @@ define(["./vector3d", "./quaternion"], function(require) {
 			@param {Number} x The value in the x coordinate axis to translate by.
 			@param {Number} y The value in the y coordinate axis to translate by.
 			@param {Number} z The value in the z coordinate axis to translate by.
-			@param {Math.Matrix4D} [destination=this] The matrix where data will be stored.
-			@returns {Math.Matrix4D} This matrix as a translation matrix or destination if
+			@param {Mathematics.Matrix4D} [destination=this] The matrix where data will be stored.
+			@returns {Mathematics.Matrix4D} This matrix as a translation matrix or destination if
 			destination was given.
 		*/
 		Matrix4D.prototype.translate = function(x, y, z, destination) {
@@ -94,7 +94,7 @@ define(["./vector3d", "./quaternion"], function(require) {
 			@param {Number} x The value in the x coordinate axis to scale by.
 			@param {Number} y The value in the y coordinate axis to scale by.
 			@param {Number} z The value in the z coordinate axis to scale by.
-			@returns {Math.Matrix4D} This matrix as a translation matrix.
+			@returns {Mathematics.Matrix4D} This matrix as a translation matrix.
 			@see Matrix4D#scale
 		*/
 		Matrix4D.prototype.makeScale = function(x, y, z) {
@@ -111,8 +111,8 @@ define(["./vector3d", "./quaternion"], function(require) {
 			@param {Number} x The value in the x coordinate axis to scale by.
 			@param {Number} y The value in the y coordinate axis to scale by.
 			@param {Number} z The value in the z coordinate axis to scale by.
-			@param {Math.Matrix4D} destination The matrix where data will be stored.
-			@returns {Math.Matrix4D} This matrix as a translation matrix or destination if
+			@param {Mathematics.Matrix4D} destination The matrix where data will be stored.
+			@returns {Mathematics.Matrix4D} This matrix as a translation matrix or destination if
 			destination was given.
 		*/
 		Matrix4D.prototype.scale = function(x, y, z, destination) {
@@ -140,9 +140,9 @@ define(["./vector3d", "./quaternion"], function(require) {
 		/**
 			Makes this matrix the rotation matrix, expecting a vector to rotate around and
 			the radians to rotate by. Beware, for it will normalize the given vector.
-			@param {Math.Vector3D} vector The vector to rotate around.
+			@param {Mathematics.Vector3D} vector The vector to rotate around.
 			@param {Number} radians The ammount to rotate by.
-			@return {Math.Matrix4D} This matrix as a rotation matrix.
+			@return {Mathematics.Matrix4D} This matrix as a rotation matrix.
 			@see Matrix4D#rotate
 		*/
 		Matrix4D.prototype.makeRotation = function(vector, radians) {
@@ -168,8 +168,8 @@ define(["./vector3d", "./quaternion"], function(require) {
 
 		/**
 			Makes this matrix its own transpose and returns it.
-			@param {Math.Matrix4D} destination The matrix where data will be stored.
-			@returns {Math.Matrix4D} This matrix transposed.
+			@param {Mathematics.Matrix4D} destination The matrix where data will be stored.
+			@returns {Mathematics.Matrix4D} This matrix transposed.
 		*/
 		Matrix4D.prototype.transpose = function(destination) {
 			if (destination === null || destination === undefined) destination = this;
@@ -203,7 +203,7 @@ define(["./vector3d", "./quaternion"], function(require) {
 			@param {Number} top The top plane of the view frustum.
 			@param {Number} near The near plane of the view frustum.
 			@param {Number} far The far plane of the view frustum.
-			@returns {Math.Matrix4D} this matrix as a frustum matrix.
+			@returns {Mathematics.Matrix4D} this matrix as a frustum matrix.
 		*/
 		Matrix4D.prototype.makeFrustum = function(left, right, bottom, top, near, far) {
 			this.makeIdentity();
@@ -230,7 +230,7 @@ define(["./vector3d", "./quaternion"], function(require) {
 			@param {Number} near The near plane of the view frustum.
 			@param {Number} far The far plane of the view frustum.
 			@param {Number} aspect_ratio Aspect ratio of the canvas.
-			@returns {Math.Matrix4D} this matrix as a perspective projection matrix.
+			@returns {Mathematics.Matrix4D} this matrix as a perspective projection matrix.
 		*/
 		Matrix4D.prototype.makePerspective = function(field_of_view, near, far, aspect_ratio) {
 			var size = near * Math.tan((field_of_view / (180 * Math.PI)) / 2);
@@ -245,7 +245,7 @@ define(["./vector3d", "./quaternion"], function(require) {
 			@param {Number} top The top plane of the view frustum.
 			@param {Number} near The near plane of the view frustum.
 			@param {Number} far The far plane of the view frustum.
-			@returns {Math.Matrix4D} this matrix as a orthographic projection matrix.
+			@returns {Mathematics.Matrix4D} this matrix as a orthographic projection matrix.
 		*/
 		Matrix4D.prototype.makeOrthographic = function(left, right, bottom, top, near, far) {
 			var rl = (right - left);
@@ -273,8 +273,8 @@ define(["./vector3d", "./quaternion"], function(require) {
 
 		/**
 			Creates a matrix from a quaternion.
-			@param {Math.Quaternion} quaternion The quaternion to create this matrix from.
-			@returns {Math.Matrix4D} This matrix with data from the quaternion.
+			@param {Mathematics.Quaternion} quaternion The quaternion to create this matrix from.
+			@returns {Mathematics.Matrix4D} This matrix with data from the quaternion.
 		*/
 		Matrix4D.prototype.makeFromQuaternion = function(orientation) {
 			this.data[0] = 1 - (2 * orientation.j * orientation.j + 2 * orientation.k * orientation.k);
@@ -296,9 +296,9 @@ define(["./vector3d", "./quaternion"], function(require) {
 
 		/**
 			Creates a matrix from a position vector and orientation quaternion.
-			@param {Math.Vector3D} position The vector representing position.
-			@param {Math.Quaternion} orientation The quaternion representing orientation.
-			@returns {Math.Matrix4D} This matrix.
+			@param {Mathematics.Vector3D} position The vector representing position.
+			@param {Mathematics.Quaternion} orientation The quaternion representing orientation.
+			@returns {Mathematics.Matrix4D} This matrix.
 		*/
 		Matrix4D.prototype.makeFromPositionAndOrientation = function(position, orientation) {
 			this.data[0] = 1 - (2 * orientation.j * orientation.j + 2 * orientation.k * orientation.k);
@@ -324,9 +324,9 @@ define(["./vector3d", "./quaternion"], function(require) {
 			Adds the given matrix to this matrix, if destination is given it will store
 			the new matrix in destination and return it, otherwise it will store and
 			return this matrix.
-			@param {Math.Matrix4D} matrix The matrix to compute with.
-			@param {Math.Matrix4D} destination The matrix where result is stored.
-			@returns {Math.Matrix4D} Result of the addition, this unless destination
+			@param {Mathematics.Matrix4D} matrix The matrix to compute with.
+			@param {Mathematics.Matrix4D} destination The matrix where result is stored.
+			@returns {Mathematics.Matrix4D} Result of the addition, this unless destination
 			is given.
 		*/
 		Matrix4D.prototype.add = function(matrix, destination) {
@@ -343,9 +343,9 @@ define(["./vector3d", "./quaternion"], function(require) {
 			Multiplies given matrix to this matrix, ig destination is given it will store
 			the new matrix in the destination matrix and return it, it will store and
 			return this matrix otherwise.
-			@param {Math.Matrix4D} matrix The matrix to compute with.
-			@param {Math.Matrix4D} destination The matrix where result is stored.
-			@returns {Math.Matrix4D} Result of the multiplication, this unless destination
+			@param {Mathematics.Matrix4D} matrix The matrix to compute with.
+			@param {Mathematics.Matrix4D} destination The matrix where result is stored.
+			@returns {Mathematics.Matrix4D} Result of the multiplication, this unless destination
 			is given.
 		*/
 		Matrix4D.prototype.multiply = function(matrix, destination) {
@@ -393,18 +393,18 @@ define(["./vector3d", "./quaternion"], function(require) {
 		/**
 			Returns a vector representing the first three values in one of the matrix's columns.
 			@param	{Number} index The column to return.
-			@param {Math.Vector3D} destination The vector where result is stored.
-			@returns {Math.Vector3D} Vector represeting the first three values in the column.
+			@param {Mathematics.Vector3D} destination The vector where result is stored.
+			@returns {Mathematics.Vector3D} Vector represeting the first three values in the column.
 		*/
 		Matrix4D.prototype.axisVector = function(index, destination) {
-			if (destination === null || destination === undefined) destination = new Math.Vector3D();
+			if (destination === null || destination === undefined) destination = new Vector3D();
 			return destination.set(this.data[index * 4], this.data[index * 4 + 1], this.data[index * 4 + 2]);
 		};
 
 		/**
 			Transforms the given vector by this matrix.
-			@param {Math.Vector3D} vector The vector to be transformed by this matrix.
-			@returns {Math.Vector3D} The transformed vector.
+			@param {Mathematics.Vector3D} vector The vector to be transformed by this matrix.
+			@returns {Mathematics.Vector3D} The transformed vector.
 		*/
 		Matrix4D.prototype.transformVector = function(vector) {
 			var x = vector.x * this.data[0] + vector.y * this.data[4] + vector.z * this.data[8] + this.data[12];
@@ -423,7 +423,7 @@ define(["./vector3d", "./quaternion"], function(require) {
 			rotation, and multiplies out. If the matrix is not a
 			scale and shear free transform matrix, then this function
 			will not give correct results.
-			@param {Math.Vector3D} vector
+			@param {Mathematics.Vector3D} vector
 		*/
 		Matrix4D.prototype.transformInverseVector = function(vector) {
 			var data = this.data;
@@ -436,7 +436,7 @@ define(["./vector3d", "./quaternion"], function(require) {
 			return vector;
 		};
 
-		Math.Matrix4D = Matrix4D;
 		return Matrix4D;
 	})();
+	return Matrix4D;
 });

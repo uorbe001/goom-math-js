@@ -1,10 +1,10 @@
 var requirejs = require("requirejs");
 requirejs.config({nodeRequire: require});
 
-requirejs(["../../src/matrix4d"], function() {
-	describe('Math.Matrix4D', function() {
+requirejs(["../../src/matrix4d", "../../src/quaternion", "../../src/vector3d"], function(Matrix4D, Quaternion, Vector3D) {
+	describe('Matrix4D', function() {
 		beforeEach(function() {
-			return this.mat = new Math.Matrix4D();
+			return this.mat = new Matrix4D();
 		});
 
 		it('should create a copy of the matrix', function() {
@@ -87,7 +87,7 @@ requirejs(["../../src/matrix4d"], function() {
 		});
 
 		it("should translate matrix and store it in destination", function() {
-			var mat2 = new Math.Matrix4D();
+			var mat2 = new Matrix4D();
 			mat2.translate(2, 3, 4, this.mat);
 			expect(this.mat.data[0]).toEqual(1);
 			expect(this.mat.data[1]).toEqual(0);
@@ -148,7 +148,7 @@ requirejs(["../../src/matrix4d"], function() {
 		});
 
 		it("should scale matrix and store it in destination matrix", function() {
-			var mat2 = new Math.Matrix4D();
+			var mat2 = new Matrix4D();
 			mat2.scale(2, 3, 5, this.mat);
 			expect(this.mat.data[0]).toEqual(2);
 			expect(this.mat.data[1]).toEqual(0);
@@ -169,7 +169,7 @@ requirejs(["../../src/matrix4d"], function() {
 		});
 
 		it("should make a rotation matrix", function() {
-			this.mat.makeRotation(Math.Vector3D.Z_AXIS, Math.PI / 6);
+			this.mat.makeRotation(Vector3D.Z_AXIS, Math.PI / 6);
 			expect(Math.round(this.mat.data[0])).toEqual(Math.round(Math.sqrt(3)/2));
 			expect(this.mat.data[1]).toEqual(1/2);
 			expect(this.mat.data[2]).toEqual(0);
@@ -190,7 +190,7 @@ requirejs(["../../src/matrix4d"], function() {
 			expect(this.mat.data[14]).toEqual(0);
 			expect(this.mat.data[15]).toEqual(1);
 
-			this.mat.makeRotation(Math.Vector3D.LEFT, Math.PI / 6);
+			this.mat.makeRotation(Vector3D.LEFT, Math.PI / 6);
 			expect(this.mat.data[0]).toEqual(1);
 			expect(this.mat.data[1]).toEqual(0);
 			expect(this.mat.data[2]).toEqual(0);
@@ -211,7 +211,7 @@ requirejs(["../../src/matrix4d"], function() {
 			expect(this.mat.data[14]).toEqual(0);
 			expect(this.mat.data[15]).toEqual(1);
 
-			this.mat.makeRotation(Math.Vector3D.UP, Math.PI / 6);
+			this.mat.makeRotation(Vector3D.UP, Math.PI / 6);
 			expect(Math.round(this.mat.data[0])).toEqual(Math.round(Math.sqrt(3)/2));
 			expect(this.mat.data[1]).toEqual(0);
 			expect(this.mat.data[2]).toEqual(-1/2);
@@ -300,7 +300,7 @@ requirejs(["../../src/matrix4d"], function() {
 			var aspect_ratio = 3/4;
 			var field_of_view = 30;
 			var size = near * Math.tan((field_of_view / (180 * Math.PI)) / 2);
-			var mat = new Math.Matrix4D();
+			var mat = new Matrix4D();
 
 			mat.makeFrustum(-size, size, -size / aspect_ratio, size / aspect_ratio, near, far);
 			this.mat.makePerspective(field_of_view, near, far, aspect_ratio);
@@ -347,7 +347,7 @@ requirejs(["../../src/matrix4d"], function() {
 		});
 
 		it("should create a rotation matrix from a quaternion", function() {
-			var q = new Math.Quaternion(1, 1, 2, 3);
+			var q = new Quaternion(1, 1, 2, 3);
 			this.mat.makeFromQuaternion(q);
 			expect(this.mat.data[0]).toEqual(-25);
 			expect(this.mat.data[1]).toEqual(-2);
@@ -371,7 +371,7 @@ requirejs(["../../src/matrix4d"], function() {
 			for (var i = 0; i <= 15; i++) {
 				this.mat.data[i] = i;
 			}
-			var mat2 = new Math.Matrix4D();
+			var mat2 = new Matrix4D();
 			this.mat.add(mat2);
 			expect(this.mat.data[0]).toEqual(1);
 			expect(this.mat.data[1]).toEqual(1);
@@ -411,8 +411,8 @@ requirejs(["../../src/matrix4d"], function() {
 			for (var i = 0; i <= 15; i++) {
 				this.mat.data[i] = i;
 			}
-			var mat2 = new Math.Matrix4D();
-			var mat3 = new Math.Matrix4D();
+			var mat2 = new Matrix4D();
+			var mat3 = new Matrix4D();
 			this.mat.add(mat2, mat3);
 			expect(this.mat.data[0]).toEqual(0);
 			expect(this.mat.data[1]).toEqual(1);
@@ -465,7 +465,7 @@ requirejs(["../../src/matrix4d"], function() {
 		});
 
 		it("should multiply two matrices and store it in the first one", function() {
-			var mat2 = new Math.Matrix4D();
+			var mat2 = new Matrix4D();
 			this.mat.data[1] = 2;
 			this.mat.data[4] = 4;
 			this.mat.data[7] = 3;
@@ -512,8 +512,8 @@ requirejs(["../../src/matrix4d"], function() {
 		});
 
 		it("should multiply two matrices and store it in the destination", function() {
-			var mat2 = new Math.Matrix4D();
-			var mat3 = new Math.Matrix4D();
+			var mat2 = new Matrix4D();
+			var mat3 = new Matrix4D();
 			this.mat.data[1] = 2;
 			this.mat.data[4] = 4;
 			this.mat.data[7] = 3;
@@ -576,7 +576,7 @@ requirejs(["../../src/matrix4d"], function() {
 		});
 
 		it("should create a matrix from position and orientation", function() {
-			var p = new Math.Vector3D(1, 2, 3), q = new Math.Quaternion(1, 1, 2, 3);
+			var p = new Vector3D(1, 2, 3), q = new Quaternion(1, 1, 2, 3);
 			this.mat.makeFromPositionAndOrientation(p, q);
 			expect(this.mat.data[0]).toEqual(-25);
 			expect(this.mat.data[1]).toEqual(-2);
@@ -620,7 +620,7 @@ requirejs(["../../src/matrix4d"], function() {
 			for (i = 0; i <= 15; i++) {
 				this.mat.data[i] = i;
 			}
-			var v = new Math.Vector3D(1, 2, 3);
+			var v = new Vector3D(1, 2, 3);
 			this.mat.transformVector(v);
 			expect(v.x).toEqual(44);
 			expect(v.y).toEqual(51);
@@ -640,7 +640,7 @@ requirejs(["../../src/matrix4d"], function() {
 			for (i = 0; i <= 15; i++) {
 				this.mat.data[i] = i;
 			}
-			var v = new Math.Vector3D(1, 2, 3);
+			var v = new Vector3D(1, 2, 3);
 			this.mat.transformInverseVector(v);
 			expect(v.x).toEqual(-33);
 			expect(v.y).toEqual(-165);

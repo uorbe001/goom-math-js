@@ -2,7 +2,7 @@ if (typeof define !== 'function') {
 	var define = require('amdefine')(module);
 }
 
-define(["./vector3d"], function(require) {
+define(["./vector3d"], function(Vector3D) {
 	/**
 		Creates a new Quaternion, used through the engine to handle rotations.
 		@class A quaternion.
@@ -14,7 +14,7 @@ define(["./vector3d"], function(require) {
 		@param {Number} [i=0] The i element.
 		@param {Number} [j=0] The j element.
 		@param {Number} [k=0] The k element.
-		@exports Quaternion as Math.Quaternion
+		@exports Quaternion as Mathematics.Quaternion
 	*/
 	var Quaternion = (function() {
 		function Quaternion(r, i, j, k) {
@@ -26,7 +26,7 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Makes this quaternion the identity quaternion.
-			@returns {Math.Quaternion} This quaternion as identity quaternion.
+			@returns {Mathematics.Quaternion} This quaternion as identity quaternion.
 		*/
 		Quaternion.prototype.makeIdentity = function() {
 			this.r = 1;
@@ -51,7 +51,7 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Normalizes the quaternion, makeing it a valid orientation quaternion.
-			@returns {Math.Quaternion} This quaternion normalized.
+			@returns {Mathematics.Quaternion} This quaternion normalized.
 		*/
 		Quaternion.prototype.normalize = function() {
 			var length = this.r * this.r + this.i * this.i + this.j * this.j + this.k * this.k;
@@ -72,9 +72,9 @@ define(["./vector3d"], function(require) {
 		/**
 			Multiplies two quaternions, storing new values on the first one if no destination
 			quaternion is given.
-			@param {Math.Quaternion} quaternion The quaternion to multiply by.
-			@param {Math.Quaternion} [destination=this] The quaternion to store the data in.
-			@returns {Math.Quaternion} The quaternion holding the new data.
+			@param {Mathematics.Quaternion} quaternion The quaternion to multiply by.
+			@param {Mathematics.Quaternion} [destination=this] The quaternion to store the data in.
+			@returns {Mathematics.Quaternion} The quaternion holding the new data.
 		*/
 		Quaternion.prototype.multiply = function(quaternion, destination) {
 			if (destination === null || destination === undefined) destination = this;
@@ -92,9 +92,9 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Rotates the quaternion by a vector.
-			@param {Math.Vector3D} vector the vector to rotate by.
-			@param {Math.Quaternion} [destination=this] The quaternion to store the data in.
-			@returns {Math.Quaternion} The quaternion holding the new data.
+			@param {Mathematics.Vector3D} vector the vector to rotate by.
+			@param {Mathematics.Quaternion} [destination=this] The quaternion to store the data in.
+			@returns {Mathematics.Quaternion} The quaternion holding the new data.
 		*/
 		Quaternion.prototype.rotateByVector = function(vector, destination) {
 			if (destination === null || destination === undefined) destination = this;
@@ -111,9 +111,9 @@ define(["./vector3d"], function(require) {
 
 		/**
 			Adds the given vector to this.
-			@param {Math.Vector3D} vector The vector to add.
-			@param {Math.Quaternion} [destination=this] The quaternion to store the data in.
-			@returns {Math.Quaternion} The quaternion holding the new data.
+			@param {Mathematics.Vector3D} vector The vector to add.
+			@param {Mathematics.Quaternion} [destination=this] The quaternion to store the data in.
+			@returns {Mathematics.Quaternion} The quaternion holding the new data.
 		*/
 		Quaternion.prototype.addVector = function(vector, destination) {
 			if (destination === null || destination === undefined) destination = this;
@@ -130,7 +130,8 @@ define(["./vector3d"], function(require) {
 			return destination;
 		};
 
-		Math.Quaternion = Quaternion;
 		return Quaternion;
 	})();
+
+	return Quaternion;
 });

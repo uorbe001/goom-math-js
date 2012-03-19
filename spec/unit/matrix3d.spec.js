@@ -1,10 +1,10 @@
 var requirejs = require("requirejs");
 requirejs.config({nodeRequire: require});
 
-requirejs(["../../src/matrix3d"], function() {
-	describe('Math.Matrix3D', function() {
+requirejs(["../../src/matrix3d", "../../src/vector3d"], function(Matrix3D, Vector3D) {
+	describe('Matrix3D', function() {
 		beforeEach(function() {
-			return this.mat = new Math.Matrix3D();
+			return this.mat = new Matrix3D();
 		});
 
 		it('should create a copy of the matrix', function() {
@@ -41,7 +41,7 @@ requirejs(["../../src/matrix3d"], function() {
 		});
 
 		it("should create a matrix from 3 vectors", function() {
-			this.mat.makeFromVectors(new Math.Vector3D(0, 1, 2), new Math.Vector3D(3, 4, 5), new Math.Vector3D(6, 7, 8));
+			this.mat.makeFromVectors(new Vector3D(0, 1, 2), new Vector3D(3, 4, 5), new Vector3D(6, 7, 8));
 			
 			expect(this.mat.data[0]).toEqual(0);
 			expect(this.mat.data[1]).toEqual(1);
@@ -55,7 +55,7 @@ requirejs(["../../src/matrix3d"], function() {
 		});
 
 		it("should make a skew symmetric matrix from a vector", function() {
-			this.mat.makeSkewSymmetric(new Math.Vector3D(1, 2, 3));
+			this.mat.makeSkewSymmetric(new Vector3D(1, 2, 3));
 			
 			expect(this.mat.data[0]).toEqual(0);
 			expect(this.mat.data[1]).toEqual(3);
@@ -91,7 +91,7 @@ requirejs(["../../src/matrix3d"], function() {
 		});
 
 		it("should transpose the matrix and store it in the destination matrix", function() {
-			var dest = new Math.Matrix3D();
+			var dest = new Matrix3D();
 			this.mat.data[0] = 1;
 			this.mat.data[1] = 2;
 			this.mat.data[2] = 3;
@@ -167,7 +167,7 @@ requirejs(["../../src/matrix3d"], function() {
 			this.mat.data[6] = 5;
 			this.mat.data[7] = 6;
 			this.mat.data[8] = 7;
-			var dest = new Math.Matrix3D();
+			var dest = new Matrix3D();
 			this.mat.inverse(dest);
 			expect(this.mat.data[0]).toEqual(1);
 			expect(this.mat.data[1]).toEqual(2);
@@ -210,7 +210,7 @@ requirejs(["../../src/matrix3d"], function() {
 		});
 
 		it('should add two matrixes and store it on the first one', function() {
-			var mat2 = new Math.Matrix3D();
+			var mat2 = new Matrix3D();
 			for (i = 0; i <= 8; i++) {
 				this.mat.data[i] = i;
 			}
@@ -237,12 +237,12 @@ requirejs(["../../src/matrix3d"], function() {
 		});
 
 		it('should add two matrixes and store it in a third one', function() {
-			var mat2 = new Math.Matrix3D();
+			var mat2 = new Matrix3D();
 			for (i = 0; i <= 8; i++) {
 				mat2.data[i] = i;
 			}
 
-			var mat3 = new Math.Matrix3D();
+			var mat3 = new Matrix3D();
 			this.mat.add(mat2, mat3);
 			expect(this.mat.data[0]).toEqual(1);
 			expect(this.mat.data[1]).toEqual(0);
@@ -275,7 +275,7 @@ requirejs(["../../src/matrix3d"], function() {
 
 		it("should multiply two matrices and store it in the first one", function() {
 			var mat2;
-			mat2 = new Math.Matrix3D();
+			mat2 = new Matrix3D();
 			this.mat.data[0] = 1;
 			this.mat.data[1] = 2;
 			this.mat.data[2] = 3;
@@ -317,8 +317,8 @@ requirejs(["../../src/matrix3d"], function() {
 
 		it("should multiply two matrices and store it in the destination", function() {
 			var dest, mat2;
-			mat2 = new Math.Matrix3D();
-			dest = new Math.Matrix3D();
+			mat2 = new Matrix3D();
+			dest = new Matrix3D();
 			this.mat.data[0] = 1;
 			this.mat.data[1] = 2;
 			this.mat.data[2] = 3;
@@ -391,7 +391,7 @@ requirejs(["../../src/matrix3d"], function() {
 		});
 
 		it("should scale a matrix by a given number and store it in the destination matrix", function() {
-			var dest = new Math.Matrix3D();
+			var dest = new Matrix3D();
 			this.mat.data[0] = 1;
 			this.mat.data[1] = 2;
 			this.mat.data[2] = 3;
@@ -426,7 +426,7 @@ requirejs(["../../src/matrix3d"], function() {
 			for (i = 0; i <= 8; i++) {
 				this.mat.data[i] = i;
 			}
-			var v = new Math.Vector3D(1, 2, 3);
+			var v = new Vector3D(1, 2, 3);
 			this.mat.transformVector(v);
 			expect(v.x).toEqual(24);
 			expect(v.y).toEqual(30);
@@ -446,7 +446,7 @@ requirejs(["../../src/matrix3d"], function() {
 			for (i = 0; i <= 8; i++) {
 				this.mat.data[i] = i;
 			}
-			var v = new Math.Vector3D(1, 2, 3);
+			var v = new Vector3D(1, 2, 3);
 			this.mat.transformTransposeVector(v);
 			expect(v.x).toEqual(8);
 			expect(v.y).toEqual(26);
