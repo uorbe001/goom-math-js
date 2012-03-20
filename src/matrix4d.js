@@ -417,15 +417,17 @@ define(["./vector3d", "./quaternion"], function(Vector3D, Quaternion) {
 		/**
 			Transforms the given vector by this matrix.
 			@param {Mathematics.Vector3D} vector The vector to be transformed by this matrix.
+			@param {Mathematics.Vector3D} [destination] The vector where result is stored.
 			@returns {Mathematics.Vector3D} The transformed vector.
 		*/
-		Matrix4D.prototype.transformVector = function(vector) {
+		Matrix4D.prototype.transformVector = function(vector, destination) {
+			if (destination === null || destination === undefined) destination = vector;
 			var x = vector.x * this.data[0] + vector.y * this.data[4] + vector.z * this.data[8] + this.data[12];
 			var y = vector.x * this.data[1] + vector.y * this.data[5] + vector.z * this.data[9] + this.data[13];
-			vector.z = vector.x * this.data[2] + vector.y * this.data[6] + vector.z * this.data[10] + this.data[14];
-			vector.x = x;
-			vector.y = y;
-			return vector;
+			destination.z = vector.x * this.data[2] + vector.y * this.data[6] + vector.z * this.data[10] + this.data[14];
+			destination.x = x;
+			destination.y = y;
+			return destination;
 		};
 
 		/**
@@ -437,16 +439,19 @@ define(["./vector3d", "./quaternion"], function(Vector3D, Quaternion) {
 			scale and shear free transform matrix, then this function
 			will not give correct results.
 			@param {Mathematics.Vector3D} vector
+			@param {Mathematics.Vector3D} [destination] The vector where result is stored.
+			@returns {Mathematics.Vector3D} The transformed vector.
 		*/
-		Matrix4D.prototype.transformInverseVector = function(vector) {
+		Matrix4D.prototype.transformInverseVector = function(vector, destination) {
+			if (destination === null || destination === undefined) destination = vector;
 			var data = this.data;
 			var x = vector.x - data[12];
 			var y = vector.y - data[13];
 			var z = vector.z - data[14];
-			vector.x = x * data[0] + y * data[1] + z * data[2];
-			vector.y = x * data[4] + y * data[5] + z * data[6];
-			vector.z = x * data[8] + y * data[9] + z * data[10];
-			return vector;
+			destination.x = x * data[0] + y * data[1] + z * data[2];
+			destination.y = x * data[4] + y * data[5] + z * data[6];
+			destination.z = x * data[8] + y * data[9] + z * data[10];
+			return destination;
 		};
 
 		return Matrix4D;

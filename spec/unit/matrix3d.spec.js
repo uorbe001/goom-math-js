@@ -462,6 +462,30 @@ requirejs(["../../src/matrix3d", "../../src/vector3d"], function(Matrix3D, Vecto
 			expect(this.mat.data[8]).toEqual(8);
 		});
 
+		it("should transform a vector by a matrix and store it in the destination", function() {
+			var v2 = new Vector3D();
+			for (i = 0; i <= 8; i++) {
+				this.mat.data[i] = i;
+			}
+			var v = new Vector3D(1, 2, 3);
+			this.mat.transformVector(v, v2);
+			expect(v.x).toEqual(1);
+			expect(v.y).toEqual(2);
+			expect(v.z).toEqual(3);
+			expect(v2.x).toEqual(24);
+			expect(v2.y).toEqual(30);
+			expect(v2.z).toEqual(36);
+			expect(this.mat.data[0]).toEqual(0);
+			expect(this.mat.data[1]).toEqual(1);
+			expect(this.mat.data[2]).toEqual(2);
+			expect(this.mat.data[3]).toEqual(3);
+			expect(this.mat.data[4]).toEqual(4);
+			expect(this.mat.data[5]).toEqual(5);
+			expect(this.mat.data[6]).toEqual(6);
+			expect(this.mat.data[7]).toEqual(7);
+			expect(this.mat.data[8]).toEqual(8);
+		});
+
 		it("should transform a vector by the transpose matrix", function() {
 			for (i = 0; i <= 8; i++) {
 				this.mat.data[i] = i;
@@ -471,6 +495,30 @@ requirejs(["../../src/matrix3d", "../../src/vector3d"], function(Matrix3D, Vecto
 			expect(v.x).toEqual(8);
 			expect(v.y).toEqual(26);
 			expect(v.z).toEqual(44);
+			expect(this.mat.data[0]).toEqual(0);
+			expect(this.mat.data[1]).toEqual(1);
+			expect(this.mat.data[2]).toEqual(2);
+			expect(this.mat.data[3]).toEqual(3);
+			expect(this.mat.data[4]).toEqual(4);
+			expect(this.mat.data[5]).toEqual(5);
+			expect(this.mat.data[6]).toEqual(6);
+			expect(this.mat.data[7]).toEqual(7);
+			expect(this.mat.data[8]).toEqual(8);
+		});
+
+		it("should transform a vector by the transpose matrix and store it in itself", function() {
+			var v2 = new Vector3D();
+			for (i = 0; i <= 8; i++) {
+				this.mat.data[i] = i;
+			}
+			var v = new Vector3D(1, 2, 3);
+			this.mat.transformTransposeVector(v, v2);
+			expect(v.x).toEqual(1);
+			expect(v.y).toEqual(2);
+			expect(v.z).toEqual(3);
+			expect(v2.x).toEqual(8);
+			expect(v2.y).toEqual(26);
+			expect(v2.z).toEqual(44);
 			expect(this.mat.data[0]).toEqual(0);
 			expect(this.mat.data[1]).toEqual(1);
 			expect(this.mat.data[2]).toEqual(2);

@@ -259,29 +259,33 @@ define(["./vector3d"], function(Vector3D) {
 		/**
 			Transforms the given vector by this matrix.
 			@param {Mathematics.Vector3D} vector The vector to be transformed by this matrix.
+			@param {Mathematics.Vector3D} [destination] The vector where result is stored.
 			@returns {Mathematics.Vector3D} The transformed vector.
 		*/
-		Matrix3D.prototype.transformVector = function(vector) {
+		Matrix3D.prototype.transformVector = function(vector, destination) {
+			if (destination === null || destination === undefined) destination = vector;
 			var x = vector.x * this.data[0] + vector.y * this.data[3] + vector.z * this.data[6];
 			var y = vector.x * this.data[1] + vector.y * this.data[4] + vector.z * this.data[7];
-			vector.z = vector.x * this.data[2] + vector.y * this.data[5] + vector.z * this.data[8];
-			vector.x = x;
-			vector.y = y;
-			return vector;
+			destination.z = vector.x * this.data[2] + vector.y * this.data[5] + vector.z * this.data[8];
+			destination.x = x;
+			destination.y = y;
+			return destination;
 		};
 
 		/**
 			Transforms the given vector by the transpose of this matrix.
 			@param {Mathematics.Vector3D} vector The vector to be transformed.
+			@param {Mathematics.Vector3D} [destination] The vector where result is stored.
 			@returns {Mathematics.Vector3D} The transformed vector.
 		*/
-		Matrix3D.prototype.transformTransposeVector = function(vector) {
+		Matrix3D.prototype.transformTransposeVector = function(vector, destination) {
+			if (destination === null || destination === undefined) destination = vector;
 			var x = vector.x * this.data[0] + vector.y * this.data[1] + vector.z * this.data[2];
 			var y = vector.x * this.data[3] + vector.y * this.data[4] + vector.z * this.data[5];
-			vector.z = vector.x * this.data[6] + vector.y * this.data[7] + vector.z * this.data[8];
-			vector.x = x;
-			vector.y = y;
-			return vector;
+			destination.z = vector.x * this.data[6] + vector.y * this.data[7] + vector.z * this.data[8];
+			destination.x = x;
+			destination.y = y;
+			return destination;
 		};
 
 		return Matrix3D;
