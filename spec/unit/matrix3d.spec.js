@@ -40,6 +40,26 @@ requirejs(["../../src/matrix3d", "../../src/vector3d"], function(Matrix3D, Vecto
 			expect(this.mat.data[8]).toEqual(1);
 		});
 
+		it("should set a matrix's data to the given data", function() {
+			this.mat.set([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+			for(var i = 8; i >= 0; i--) {
+				expect(this.mat.data[i]).toEqual(i);
+			}
+		});
+
+		it("should set the diagonal of the matrix to -1 2 3", function() {
+			this.mat.setDiagonal(-1, 2, 3);
+			expect(this.mat.data[0]).toEqual(-1);
+			expect(this.mat.data[1]).toEqual(0);
+			expect(this.mat.data[2]).toEqual(0);
+			expect(this.mat.data[3]).toEqual(0);
+			expect(this.mat.data[4]).toEqual(2);
+			expect(this.mat.data[5]).toEqual(0);
+			expect(this.mat.data[6]).toEqual(0);
+			expect(this.mat.data[7]).toEqual(0);
+			expect(this.mat.data[8]).toEqual(3);
+		});
+
 		it("should create a matrix from 3 vectors", function() {
 			this.mat.makeFromVectors(new Vector3D(0, 1, 2), new Vector3D(3, 4, 5), new Vector3D(6, 7, 8));
 			

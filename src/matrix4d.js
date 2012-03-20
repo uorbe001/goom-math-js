@@ -36,6 +36,19 @@ define(["./vector3d", "./quaternion"], function(Vector3D, Quaternion) {
 		};
 
 		/**
+			Sets this matrix data to the given data.
+			@param {Array} data An array holding the new array data.
+			@returns {Mathematics.Matrix4D} This matrix with the new data.
+		*/
+		Matrix4D.prototype.set = function(data) {
+			for (var i = 0; i <= 15; i++) {
+				this.data[i] = data[i];
+			}
+			
+			return this;
+		};
+
+		/**
 			Makes this matrix the identity matrix.
 			@returns {Mathematics.Matrix4D} This matrix as identity matrix.
 		*/

@@ -46,6 +46,13 @@ requirejs(["../../src/matrix4d", "../../src/quaternion", "../../src/vector3d"], 
 			expect(this.mat.data[15]).toEqual(1);
 		});
 
+		it("should set a matrix's data to the given data", function() {
+			this.mat.set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+			for(var i = 15; i >= 0; i--) {
+				expect(this.mat.data[i]).toEqual(i);
+			}
+		});
+
 		it("should make a translation matrix", function() {
 			this.mat.makeTranslation(2, 3, 4);
 			expect(this.mat.data[0]).toEqual(1);

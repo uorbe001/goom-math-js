@@ -37,6 +37,33 @@ define(["./vector3d"], function(Vector3D) {
 		};
 
 		/**
+			Sets this matrix data to the given data.
+			@param {Array} data An array holding the new array data.
+			@returns {Mathematics.Matrix3D} This matrix with the new data.
+		*/
+		Matrix3D.prototype.set = function(data) {
+			for (var i = 0; i <= 8; i++) {
+				this.data[i] = data[i];
+			}
+			
+			return this;
+		};
+
+		/**
+			Sets the diagonal of this matrix to the given values.
+			@param {Number} a00 The value for the a00 element of the diagonal.
+			@param {Number} a11 The value for the a11 element of the diagonal.
+			@param {Number} a22 The value for the a22 element of the diagonal.
+			@returns {Mathematics.Matrix3D} This matrix with the new data.
+		*/
+		Matrix3D.prototype.setDiagonal = function(a00, a11, a22) {
+			this.data[0] = a00;
+			this.data[4] = a11;
+			this.data[8] = a22;
+			return this;
+		};
+
+		/**
 			Makes this matrix a matrix created from 3 vectors.
 			@param {Mathematics.Vector3D} vector1 The first vector to create the matrix from.
 			@param {Mathematics.Vector3D} vector2 The second vector to create the matrix from.
