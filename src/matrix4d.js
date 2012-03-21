@@ -2,7 +2,7 @@ if (typeof define !== 'function') {
 	var define = require('amdefine')(module);
 }
 
-define(["./vector3d", "./quaternion"], function(Vector3D, Quaternion) {
+define(["./vector3d", "./quaternion", "./matrix3d"], function(Vector3D, Quaternion, Matrix3D) {
 	/**
 		Creates a new Matrix4D, used through the engine to feed data to the vertex and store
 		transformation data.
@@ -438,7 +438,7 @@ define(["./vector3d", "./quaternion"], function(Vector3D, Quaternion) {
 			rotation, and multiplies out. If the matrix is not a
 			scale and shear free transform matrix, then this function
 			will not give correct results.
-			@param {Mathematics.Vector3D} vector
+			@param {Mathematics.Vector3D} vector The vector to be transformed by this matrix.
 			@param {Mathematics.Vector3D} [destination] The vector where result is stored.
 			@returns {Mathematics.Vector3D} The transformed vector.
 		*/
@@ -452,6 +452,39 @@ define(["./vector3d", "./quaternion"], function(Vector3D, Quaternion) {
 			destination.y = x * data[4] + y * data[5] + z * data[6];
 			destination.z = x * data[8] + y * data[9] + z * data[10];
 			return destination;
+		};
+
+		/**
+			Transforms the given Matrix3D by this matrix. This function is useful to transform other matrices by
+			the transformation matrix.
+			@param {Mathematics.Matrix3D} matrix The matrix to transform by this matrix.
+			@param {Mathematics.Matrix3D} [destination] The matrix where the updated data will be stored.
+			@returns {Mathematics.Matrix3D} The transformed matrix.
+		*/
+		Matrix4D.prototype.transformMatrix3D = function(matrix, destination) {
+			if (destination === null || destination === undefined) destination = matrix;
+			var data = this.data;
+			var mat_data = this.data;
+			var t1 = data[0] * mat_data[0] + data[4] * mat_data[1] + data[8] * mat_data[2],
+				t2 = data[0] * mat_data[3] + data[4] * mat_data[4] + data[8] * mat_data[5],
+				t3 = data[0] * mat_data[6] + data[4] * mat_data[7] + data[8] * mat_data[8],
+				t4 = data[1] * mat_data[0] + data[5] * mat_data[1] + data[9] * mat_data[2],
+				t5 = data[1] * mat_data[3] + data[5] * mat_data[4] + data[9] * mat_data[5],
+				t6 = data[1] * mat_data[6] + data[5] * mat_data[7] + data[9] * mat_data[8],
+				t7 = data[2] * mat_data[0] + data[6] * mat_data[1] + data[10] * mat_data[2],
+				t8 = data[2] * mat_data[3] + data[6] * mat_data[4] + data[10] * mat_data[5],
+				t9 = data[2] * mat_data[6] + data[6] * mat_data[7] + data[10] * mat_data[8];
+
+
+			destination.data[0] = t1 * data[0] + t2 * data[4] + t3 * data[8];
+			destination.data[1] = t4 * data[0] + t5 * data[4] + t6 * data[8];
+			destination.data[2] = t7 * data[0] + t8 * data[4] + t9 * data[8];
+			destination.data[3] = t1 * data[1] + t2 * data[5] + t3 * data[9];
+			destination.data[4] = t4 * data[1] + t5 * data[5] + t6 * data[9];
+			destination.data[5] = t7 * data[1] + t8 * data[5] + t9 * data[9];
+			destination.data[6] = t1 * data[2] + t2 * data[6] + t3 * data[10];
+			destination.data[7] = t4 * data[2] + t5 * data[6] + t6 * data[10];
+			destination.data[8] = t7 * data[2] + t8 * data[6] + t9 * data[10];
 		};
 
 		return Matrix4D;

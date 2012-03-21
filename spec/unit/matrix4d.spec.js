@@ -1,7 +1,7 @@
 var requirejs = require("requirejs");
 requirejs.config({nodeRequire: require});
 
-requirejs(["../../src/matrix4d", "../../src/quaternion", "../../src/vector3d"], function(Matrix4D, Quaternion, Vector3D) {
+requirejs(["../../src/matrix4d", "../../src/quaternion", "../../src/vector3d", "../../src/matrix3d"], function(Matrix4D, Quaternion, Vector3D, Matrix3D) {
 	describe('Matrix4D', function() {
 		beforeEach(function() {
 			return this.mat = new Matrix4D();
@@ -709,6 +709,59 @@ requirejs(["../../src/matrix4d", "../../src/quaternion", "../../src/vector3d"], 
 			expect(this.mat.data[6]).toEqual(6);
 			expect(this.mat.data[7]).toEqual(7);
 			expect(this.mat.data[8]).toEqual(8);
+		});
+
+		it("should transform a 3d matrix by this matrix and store it in itself", function() {
+			var mat = new Matrix3D();
+			for (i = 0; i <= 15; i++) {
+				this.mat.data[i] = i;
+			}
+			for (i = 0; i <= 8; i++) {
+				mat.data[i] = i;
+			}
+
+			var t4 = this.mat.data[0]*mat.data[0]+
+			this.mat.data[4]*mat.data[1]+
+			this.mat.data[8]*mat.data[2];
+			var t9 = this.mat.data[0]*mat.data[3]+
+			this.mat.data[4]*mat.data[4]+
+			this.mat.data[8]*mat.data[5];
+			var t14 = this.mat.data[0]*mat.data[6]+
+			this.mat.data[4]*mat.data[7]+
+			this.mat.data[8]*mat.data[8];
+			var t28 = this.mat.data[1]*mat.data[0]+
+			this.mat.data[5]*mat.data[1]+
+			this.mat.data[9]*mat.data[2];
+			var t33 = this.mat.data[1]*mat.data[3]+
+			this.mat.data[5]*mat.data[4]+
+			this.mat.data[9]*mat.data[5];
+			var t38 = this.mat.data[1]*mat.data[6]+
+			this.mat.data[5]*mat.data[7]+
+			this.mat.data[9]*mat.data[8];
+			var t52 = this.mat.data[2]*mat.data[0]+
+			this.mat.data[6]*mat.data[1]+
+			this.mat.data[10]*mat.data[2];
+			var t57 = this.mat.data[2]*mat.data[3]+
+			this.mat.data[6]*mat.data[4]+
+			this.mat.data[10]*mat.data[5];
+			var t62 = this.mat.data[2]*mat.data[6]+
+			this.mat.data[6]*mat.data[7]+
+			this.mat.data[10]*mat.data[8];
+
+			this.mat.transformMatrix3D(mat);
+			for (i = 0; i <= 15; i++) {
+				expect(this.mat.data[i]).toBe(i);
+			}
+
+			expect(mat.data[0]).toBe(t4 * this.mat.data[0] + t9 * this.mat.data[4]+ t14 * this.mat.data[8]);
+			expect(mat.data[1]).toBe(t28 * this.mat.data[0] + t33 * this.mat.data[4]+ t38 * this.mat.data[8]);
+			expect(mat.data[2]).toBe(t52 * this.mat.data[0] + t57 * this.mat.data[4]+ t62 * this.mat.data[8]);
+			expect(mat.data[3]).toBe(t4 * this.mat.data[1] + t9 * this.mat.data[5]+ t14 * this.mat.data[9]);
+			expect(mat.data[4]).toBe(t28 * this.mat.data[1] + t33 * this.mat.data[5]+ t38 * this.mat.data[9]);
+			expect(mat.data[5]).toBe(t52 * this.mat.data[1] + t57 * this.mat.data[5]+ t62 * this.mat.data[9]);
+			expect(mat.data[6]).toBe(t4 * this.mat.data[2] + t9 * this.mat.data[6]+ t14 * this.mat.data[10]);
+			expect(mat.data[7]).toBe(t28 * this.mat.data[2] + t33 * this.mat.data[6]+ t38 * this.mat.data[10]);
+			expect(mat.data[8]).toBe(t52 * this.mat.data[2] + t57 * this.mat.data[6]+ t62 * this.mat.data[10]);
 		});
 	});
 });
