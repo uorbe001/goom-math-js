@@ -10,7 +10,7 @@ var config = {
 	findNestedDependencies: true,
 	modules: [
 		{
-			name: "thorn-math"
+			name: "goom-math"
 		}
 	]
 };
@@ -36,7 +36,7 @@ task("build", function(params){
 		fs.unlink('dist/vector3d.js');
 		fs.unlink('dist/matrix3d.js');
 		fs.unlink('dist/matrix4d.js');
-		fs.rename('dist/thorn-math.js', 'dist/thorn-math.min.js');
-		console.log("The file is ready at dist/thron-math.min.js");
+		fs.rename('dist/goom-math.js', 'dist/goom-math.min.js');
+		console.log("The file is ready at dist/goom-math.min.js");
 	});
 });
