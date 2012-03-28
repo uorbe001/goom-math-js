@@ -7,7 +7,6 @@ var config = {
 	appDir: "src/",
 	baseUrl: ".",
 	dir: "dist/",
-	findNestedDependencies: true,
 	modules: [
 		{
 			name: "goom-math"
