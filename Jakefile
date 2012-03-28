@@ -4,14 +4,9 @@ var exec = require('child_process').exec;
 var requirejs = require('requirejs');
 
 var config = {
-	appDir: "src/",
 	baseUrl: ".",
-	dir: "dist/",
-	modules: [
-		{
-			name: "goom-math"
-		}
-	]
+	name: "src/goom-math",
+	out: "dist/goom-math.min.js",
 };
 
 desc("This is the default task.");
@@ -31,10 +26,6 @@ task("build", function(params){
 	console.log("Building the project into a minified file...")
 	requirejs.optimize(config, function (buildResponse) {
 		fs.unlink('dist/build.txt');
-		fs.unlink('dist/quaternion.js');
-		fs.unlink('dist/vector3d.js');
-		fs.unlink('dist/matrix3d.js');
-		fs.unlink('dist/matrix4d.js');
 		fs.rename('dist/goom-math.js', 'dist/goom-math.min.js');
 		console.log("The file is ready at dist/goom-math.min.js");
 	});
