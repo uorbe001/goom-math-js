@@ -4,8 +4,8 @@ var exec = require('child_process').exec;
 var requirejs = require('requirejs');
 
 var config = {
-	baseUrl: ".",
-	name: "src/goom-math",
+	baseUrl: "src/",
+	name: "goom-math",
 	out: "dist/goom-math.min.js",
 };
 

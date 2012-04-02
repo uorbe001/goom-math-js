@@ -455,8 +455,8 @@ define(["./vector3d", "./quaternion", "./matrix3d"], function(Vector3D, Quaterni
 		};
 
 		/**
-			Transforms the given Matrix3D by this matrix. This function is useful to transform other matrices by
-			the transformation matrix.
+			Transforms the given Matrix3D by this matrix. This function is used to transform the inertia tensor by the
+			transformation matrix, and it is most likely only useful there.
 			@param {Mathematics.Matrix3D} matrix The matrix to transform by this matrix.
 			@param {Mathematics.Matrix3D} [destination] The matrix where the updated data will be stored.
 			@returns {Mathematics.Matrix3D} The transformed matrix.
@@ -474,7 +474,6 @@ define(["./vector3d", "./quaternion", "./matrix3d"], function(Vector3D, Quaterni
 				t7 = data[2] * mat_data[0] + data[6] * mat_data[1] + data[10] * mat_data[2],
 				t8 = data[2] * mat_data[3] + data[6] * mat_data[4] + data[10] * mat_data[5],
 				t9 = data[2] * mat_data[6] + data[6] * mat_data[7] + data[10] * mat_data[8];
-
 
 			destination.data[0] = t1 * data[0] + t2 * data[4] + t3 * data[8];
 			destination.data[1] = t4 * data[0] + t5 * data[4] + t6 * data[8];
