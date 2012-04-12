@@ -711,57 +711,39 @@ requirejs(["../../src/matrix4d", "../../src/quaternion", "../../src/vector3d", "
 			expect(this.mat.data[8]).toEqual(8);
 		});
 
-		it("should transform a 3d matrix by this matrix and store it in itself", function() {
+		it("should transform a inertia tensor by this matrix and store it in itself", function() {
 			var mat = new Matrix3D();
-			for (i = 0; i <= 15; i++) {
-				this.mat.data[i] = i;
-			}
-			for (i = 0; i <= 8; i++) {
-				mat.data[i] = i;
-			}
+			mat.setDiagonal(1/2, 1/2, 1/2);
+			this.mat.set([0.36, -0.8, 0.48, 0, 0.48, 0.6, 0.64, 0, -0.8, 0, 0.6, 0, 0, 0, 0, 0]);
 
-			var t4 = this.mat.data[0]*mat.data[0]+
-			this.mat.data[4]*mat.data[1]+
-			this.mat.data[8]*mat.data[2];
-			var t9 = this.mat.data[0]*mat.data[3]+
-			this.mat.data[4]*mat.data[4]+
-			this.mat.data[8]*mat.data[5];
-			var t14 = this.mat.data[0]*mat.data[6]+
-			this.mat.data[4]*mat.data[7]+
-			this.mat.data[8]*mat.data[8];
-			var t28 = this.mat.data[1]*mat.data[0]+
-			this.mat.data[5]*mat.data[1]+
-			this.mat.data[9]*mat.data[2];
-			var t33 = this.mat.data[1]*mat.data[3]+
-			this.mat.data[5]*mat.data[4]+
-			this.mat.data[9]*mat.data[5];
-			var t38 = this.mat.data[1]*mat.data[6]+
-			this.mat.data[5]*mat.data[7]+
-			this.mat.data[9]*mat.data[8];
-			var t52 = this.mat.data[2]*mat.data[0]+
-			this.mat.data[6]*mat.data[1]+
-			this.mat.data[10]*mat.data[2];
-			var t57 = this.mat.data[2]*mat.data[3]+
-			this.mat.data[6]*mat.data[4]+
-			this.mat.data[10]*mat.data[5];
-			var t62 = this.mat.data[2]*mat.data[6]+
-			this.mat.data[6]*mat.data[7]+
-			this.mat.data[10]*mat.data[8];
+			this.mat.transformInertiaTensor(mat);
 
-			this.mat.transformMatrix3D(mat);
-			for (i = 0; i <= 15; i++) {
-				expect(this.mat.data[i]).toBe(i);
-			}
+			expect(Math.round(100 * this.mat.data[0])/100).toBe(0.36);
+			expect(Math.round(100 * this.mat.data[1])/100).toBe(-0.8);
+			expect(Math.round(100 * this.mat.data[2])/100).toBe(0.48);
+			expect(Math.round(100 * this.mat.data[3])/100).toBe(0);
+			expect(Math.round(100 * this.mat.data[4])/100).toBe(0.48);
+			expect(Math.round(100 * this.mat.data[5])/100).toBe(0.6);
+			expect(Math.round(100 * this.mat.data[6])/100).toBe(0.64);
+			expect(Math.round(100 * this.mat.data[7])/100).toBe(0);
+			expect(Math.round(100 * this.mat.data[8])/100).toBe(-0.8);
+			expect(Math.round(100 * this.mat.data[9])/100).toBe(0);
+			expect(Math.round(100 * this.mat.data[10])/100).toBe(0.6);
+			expect(this.mat.data[11]).toBe(0);
+			expect(this.mat.data[12]).toBe(0);
+			expect(this.mat.data[13]).toBe(0);
+			expect(this.mat.data[14]).toBe(0);
+			expect(this.mat.data[15]).toBe(0);
 
-			expect(mat.data[0]).toBe(t4 * this.mat.data[0] + t9 * this.mat.data[4]+ t14 * this.mat.data[8]);
-			expect(mat.data[1]).toBe(t28 * this.mat.data[0] + t33 * this.mat.data[4]+ t38 * this.mat.data[8]);
-			expect(mat.data[2]).toBe(t52 * this.mat.data[0] + t57 * this.mat.data[4]+ t62 * this.mat.data[8]);
-			expect(mat.data[3]).toBe(t4 * this.mat.data[1] + t9 * this.mat.data[5]+ t14 * this.mat.data[9]);
-			expect(mat.data[4]).toBe(t28 * this.mat.data[1] + t33 * this.mat.data[5]+ t38 * this.mat.data[9]);
-			expect(mat.data[5]).toBe(t52 * this.mat.data[1] + t57 * this.mat.data[5]+ t62 * this.mat.data[9]);
-			expect(mat.data[6]).toBe(t4 * this.mat.data[2] + t9 * this.mat.data[6]+ t14 * this.mat.data[10]);
-			expect(mat.data[7]).toBe(t28 * this.mat.data[2] + t33 * this.mat.data[6]+ t38 * this.mat.data[10]);
-			expect(mat.data[8]).toBe(t52 * this.mat.data[2] + t57 * this.mat.data[6]+ t62 * this.mat.data[10]);
+			expect(mat.data[0]).toBe(1/2);
+			expect(Math.round(100 * mat.data[1])/100).toBe(0);
+			expect(Math.round(100 * mat.data[2])/100).toBe(0);
+			expect(Math.round(100 * mat.data[3])/100).toBe(0);
+			expect(mat.data[4]).toBe(1/2);
+			expect(Math.round(100 * mat.data[5])/100).toBe(0);
+			expect(Math.round(100 * mat.data[6])/100).toBe(0);
+			expect(Math.round(100 * mat.data[7])/100).toBe(0);
+			expect(mat.data[8]).toBe(1/2);
 		});
 	});
 });

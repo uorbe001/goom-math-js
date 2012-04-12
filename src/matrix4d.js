@@ -455,35 +455,48 @@ define(["./vector3d", "./quaternion", "./matrix3d"], function(Vector3D, Quaterni
 		};
 
 		/**
-			Transforms the given Matrix3D by this matrix. This function is used to transform the inertia tensor by the
-			transformation matrix, and it is most likely only useful there.
+			Transforms the inertia tensor by the rotational elements in this matrix.
 			@param {Mathematics.Matrix3D} matrix The matrix to transform by this matrix.
 			@param {Mathematics.Matrix3D} [destination] The matrix where the updated data will be stored.
 			@returns {Mathematics.Matrix3D} The transformed matrix.
 		*/
-		Matrix4D.prototype.transformMatrix3D = function(matrix, destination) {
+		Matrix4D.prototype.transformInertiaTensor = function(matrix, destination) {
 			if (destination === null || destination === undefined) destination = matrix;
 			var data = this.data;
-			var mat_data = this.data;
-			var t1 = data[0] * mat_data[0] + data[4] * mat_data[1] + data[8] * mat_data[2],
-				t2 = data[0] * mat_data[3] + data[4] * mat_data[4] + data[8] * mat_data[5],
-				t3 = data[0] * mat_data[6] + data[4] * mat_data[7] + data[8] * mat_data[8],
-				t4 = data[1] * mat_data[0] + data[5] * mat_data[1] + data[9] * mat_data[2],
-				t5 = data[1] * mat_data[3] + data[5] * mat_data[4] + data[9] * mat_data[5],
-				t6 = data[1] * mat_data[6] + data[5] * mat_data[7] + data[9] * mat_data[8],
-				t7 = data[2] * mat_data[0] + data[6] * mat_data[1] + data[10] * mat_data[2],
-				t8 = data[2] * mat_data[3] + data[6] * mat_data[4] + data[10] * mat_data[5],
-				t9 = data[2] * mat_data[6] + data[6] * mat_data[7] + data[10] * mat_data[8];
+			var mat_data = matrix.data;
 
-			destination.data[0] = t1 * data[0] + t2 * data[4] + t3 * data[8];
-			destination.data[1] = t4 * data[0] + t5 * data[4] + t6 * data[8];
-			destination.data[2] = t7 * data[0] + t8 * data[4] + t9 * data[8];
-			destination.data[3] = t1 * data[1] + t2 * data[5] + t3 * data[9];
-			destination.data[4] = t4 * data[1] + t5 * data[5] + t6 * data[9];
-			destination.data[5] = t7 * data[1] + t8 * data[5] + t9 * data[9];
-			destination.data[6] = t1 * data[2] + t2 * data[6] + t3 * data[10];
-			destination.data[7] = t4 * data[2] + t5 * data[6] + t6 * data[10];
-			destination.data[8] = t7 * data[2] + t8 * data[6] + t9 * data[10];
+			var a00 = (data[0] * mat_data[0 * 3 + 0]) + (data[4] * mat_data[0 * 3 + 1]) + (data[8] * mat_data[0 * 3 + 2]);
+			var a01 = (data[1] * mat_data[0 * 3 + 0]) + (data[5] * mat_data[0 * 3 + 1]) + (data[9] * mat_data[0 * 3 + 2]);
+			var a02 = (data[2] * mat_data[0 * 3 + 0]) + (data[6] * mat_data[0 * 3 + 1]) + (data[10] * mat_data[0 * 3 + 2]);
+
+			var a10 = (data[0] * mat_data[1 * 3 + 0]) + (data[4] * mat_data[1 * 3 + 1]) + (data[8] * mat_data[1 * 3 + 2]);
+			var a11 = (data[1] * mat_data[1 * 3 + 0]) + (data[5] * mat_data[1 * 3 + 1]) + (data[9] * mat_data[1 * 3 + 2]);
+			var a12 = (data[2] * mat_data[1 * 3 + 0]) + (data[6] * mat_data[1 * 3 + 1]) + (data[10] * mat_data[1 * 3 + 2]);
+
+			var a20 = (data[0] * mat_data[2 * 3 + 0]) + (data[4] * mat_data[2 * 3 + 1]) + (data[8] * mat_data[2 * 3 + 2]);
+			var a21 = (data[1] * mat_data[2 * 3 + 0]) + (data[5] * mat_data[2 * 3 + 1]) + (data[9] * mat_data[2 * 3 + 2]);
+			var a22 = (data[2] * mat_data[2 * 3 + 0]) + (data[6] * mat_data[2 * 3 + 1]) + (data[10] * mat_data[2 * 3 + 2]);
+
+			var b00 = data[0];
+			var b01 = data[4];
+			var b02 = data[8];
+			var b10 = data[1];
+			var b11 = data[5];
+			var b12 = data[9];
+			var b20 = data[2];
+			var b21 = data[6];
+			var b22 = data[10];
+
+			destination.data[0] = (a00 * b00) + (a10 * b01) + (a20 * b02);
+			destination.data[1] = (a01 * b00) + (a11 * b01) + (a21 * b02);
+			destination.data[2] = (a02 * b00) + (a12 * b01) + (a22 * b02);
+			destination.data[3] = (a00 * b10) + (a10 * b11) + (a20 * b12);
+			destination.data[4] = (a01 * b10) + (a11 * b11) + (a21 * b12);
+			destination.data[5] = (a02 * b10) + (a12 * b11) + (a22 * b12);
+			destination.data[6] = (a00 * b20) + (a10 * b21) + (a20 * b22);
+			destination.data[7] = (a01 * b20) + (a11 * b21) + (a21 * b22);
+			destination.data[8] = (a02 * b20) + (a12 * b21) + (a22 * b22);
+			return destination;
 		};
 
 		return Matrix4D;
