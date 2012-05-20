@@ -288,6 +288,17 @@ define(["./vector3d"], function(Vector3D) {
 			return destination;
 		};
 
+		/**
+			Returns a vector representing the first three values in one of the matrix's rows.
+			@param	{Number} index The row to return.
+			@param {Mathematics.Vector3D} destination The vector where result is stored.
+			@returns {Mathematics.Vector3D} Vector represeting the first three values in the row.
+		*/
+		Matrix3D.prototype.row = function(index, destination) {
+			if (destination === null || destination === undefined) destination = new Vector3D();
+			return destination.set(this.data[index], this.data[index + 1], this.data[index + 2]);
+		};
+
 		return Matrix3D;
 	})();
 

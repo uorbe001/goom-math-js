@@ -49,6 +49,22 @@ define(["./vector3d", "./quaternion", "./matrix3d"], function(Vector3D, Quaterni
 		};
 
 		/**
+			Sets the diagonal of this matrix to the given values.
+			@param {Number} a00 The value for the a00 element of the diagonal.
+			@param {Number} a11 The value for the a11 element of the diagonal.
+			@param {Number} a22 The value for the a22 element of the diagonal.
+			@param {Number} a33 The value for the a33 element of the diagonal.
+			@returns {Mathematics.Matrix4D} This matrix with the new data.
+		*/
+		Matrix4D.prototype.setDiagonal = function(a00, a11, a22, a33) {
+			this.data[0] = a00;
+			this.data[5] = a11;
+			this.data[10] = a22;
+			this.data[15] = a33;
+			return this;
+		};
+
+		/**
 			Makes this matrix the identity matrix.
 			@returns {Mathematics.Matrix4D} This matrix as identity matrix.
 		*/
@@ -497,6 +513,37 @@ define(["./vector3d", "./quaternion", "./matrix3d"], function(Vector3D, Quaterni
 			destination.data[7] = (a01 * b20) + (a11 * b21) + (a21 * b22);
 			destination.data[8] = (a02 * b20) + (a12 * b21) + (a22 * b22);
 			return destination;
+		};
+
+		/**
+			Makes this matrix a look-at matrix. Not optimized. TODO
+			@param {Mathematics.Vector3D} eye Position of the camera
+			@param {Mathematics.Vector3D} center Point to look at.
+			@param {Mathematics.Vector3D} up Vector pointing "up"
+			@returns {Mathematics.Matrix4D} this matrix as a look-at matrix.
+		*/
+		Matrix4D.prototype.lookAt = function (eye, center, up) {
+			var z_axis = center.substract(eye, new Vector3D()).normalize();
+			var x_axis = up.crossProduct(z_axis, new Vector3D()).normalize();
+			var y_axis = z_axis.crossProduct(x_axis, new Vector3D());
+
+			this.data[0] = x_axis.x;
+			this.data[1] = y_axis.x;
+			this.data[2] = z_axis.x;
+			this.data[3] = 0;
+			this.data[4] = x_axis.y;
+			this.data[5] = y_axis.y;
+			this.data[6] = z_axis.y;
+			this.data[7] = 0;
+			this.data[8] = x_axis.z;
+			this.data[9] = y_axis.z;
+			this.data[10] = z_axis.z;
+			this.data[11] = 0;
+			this.data[12] = -x_axis.dotProduct(eye);
+			this.data[13] = -y_axis.dotProduct(eye);
+			this.data[14] = -z_axis.dotProduct(eye);
+			this.data[15] = 1;
+			return this;
 		};
 
 		return Matrix4D;
