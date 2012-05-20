@@ -24,9 +24,8 @@ task("test", function(params){
 desc("Builds the project into a minified file.");
 task("build", function(params){
 	console.log("Building the project into a minified file...")
-	requirejs.optimize(config, function (buildResponse) {
-		fs.unlink('dist/build.txt');
-		fs.rename('dist/goom-math.js', 'dist/goom-math.min.js');
-		console.log("The file is ready at dist/goom-math.min.js");
+	exec("browserify src/goom-math.js  -o dist/goom-math.js", function (error, stdout, stderr) {
+		sys.print(stdout);
+		console.log("The file is ready at dist/goom-math.js");
 	});
 });
