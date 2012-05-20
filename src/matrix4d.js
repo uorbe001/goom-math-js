@@ -511,6 +511,9 @@ Matrix4D.prototype.transformInertiaTensor = function(matrix, destination) {
 	return destination;
 };
 
+var __helperVector = new Vector3D();
+var __helperVector2 = new Vector3D();
+
 /**
 	Makes this matrix a look-at matrix. Not optimized. TODO
 	@param {Mathematics.Vector3D} eye Position of the camera
@@ -519,26 +522,28 @@ Matrix4D.prototype.transformInertiaTensor = function(matrix, destination) {
 	@returns {Mathematics.Matrix4D} this matrix as a look-at matrix.
 */
 Matrix4D.prototype.lookAt = function (eye, center, up) {
-	var z_axis = center.substract(eye, new Vector3D()).normalize();
-	var x_axis = up.crossProduct(z_axis, new Vector3D()).normalize();
-	var y_axis = z_axis.crossProduct(x_axis, new Vector3D());
+	var z_axis = center.substract(eye, __helperVector).normalize();
+	var x_axis = up.crossProduct(z_axis, __helperVector2).normalize();
 
 	this.data[0] = x_axis.x;
-	this.data[1] = y_axis.x;
 	this.data[2] = z_axis.x;
 	this.data[3] = 0;
 	this.data[4] = x_axis.y;
-	this.data[5] = y_axis.y;
 	this.data[6] = z_axis.y;
 	this.data[7] = 0;
 	this.data[8] = x_axis.z;
-	this.data[9] = y_axis.z;
 	this.data[10] = z_axis.z;
 	this.data[11] = 0;
 	this.data[12] = -x_axis.dotProduct(eye);
-	this.data[13] = -y_axis.dotProduct(eye);
 	this.data[14] = -z_axis.dotProduct(eye);
 	this.data[15] = 1;
+
+	var y_axis = z_axis.crossProduct(x_axis);
+	this.data[1] = y_axis.x;
+	this.data[5] = y_axis.y;
+	this.data[9] = y_axis.z;
+	this.data[13] = -y_axis.dotProduct(eye);
+
 	return this;
 };
 
