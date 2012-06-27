@@ -521,28 +521,80 @@ var __helperVector2 = new Vector3D();
 	@param {Mathematics.Vector3D} up Vector pointing "up"
 	@returns {Mathematics.Matrix4D} this matrix as a look-at matrix.
 */
-Matrix4D.prototype.lookAt = function (eye, center, up) {
-	var z_axis = center.substract(eye, __helperVector).normalize();
-	var x_axis = up.crossProduct(z_axis, __helperVector2).normalize();
+Matrix4D.prototype.makeLookAt = function (eye, center, up) {
+	var x0, x1, x2, y0, y1, y2, z0, z1, z2, len,
+		eyex = eye.x,
+		eyey = eye.y,
+		eyez = eye.z,
+		upx = up.x,
+		upy = up.y,
+		upz = up.z,
+		centerx = center.x,
+		centery = center.y,
+		centerz = center.z;
 
-	this.data[0] = x_axis.x;
-	this.data[2] = z_axis.x;
+	if (eyex === centerx && eyey === centery && eyez === centerz) {
+		return this.makeIdentity();
+	}
+
+	z0 = eyex - centerx;
+	z1 = eyey - centery;
+	z2 = eyez - centerz;
+
+	len = 1 / Math.sqrt(z0 * z0 + z1 * z1 + z2 * z2);
+	z0 *= len;
+	z1 *= len;
+	z2 *= len;
+
+	x0 = upy * z2 - upz * z1;
+	x1 = upz * z0 - upx * z2;
+	x2 = upx * z1 - upy * z0;
+	len = Math.sqrt(x0 * x0 + x1 * x1 + x2 * x2);
+
+	if (!len) {
+		x0 = 0;
+		x1 = 0;
+		x2 = 0;
+	} else {
+		len = 1 / len;
+		x0 *= len;
+		x1 *= len;
+		x2 *= len;
+	}
+
+	y0 = z1 * x2 - z2 * x1;
+	y1 = z2 * x0 - z0 * x2;
+	y2 = z0 * x1 - z1 * x0;
+
+	len = Math.sqrt(y0 * y0 + y1 * y1 + y2 * y2);
+
+	if (!len) {
+		y0 = 0;
+		y1 = 0;
+		y2 = 0;
+	} else {
+		len = 1 / len;
+		y0 *= len;
+		y1 *= len;
+		y2 *= len;
+	}
+
+	this.data[0] = x0;
+	this.data[1] = y0;
+	this.data[2] = z0;
 	this.data[3] = 0;
-	this.data[4] = x_axis.y;
-	this.data[6] = z_axis.y;
+	this.data[4] = x1;
+	this.data[5] = y1;
+	this.data[6] = z1;
 	this.data[7] = 0;
-	this.data[8] = x_axis.z;
-	this.data[10] = z_axis.z;
+	this.data[8] = x2;
+	this.data[9] = y2;
+	this.data[10] = z2;
 	this.data[11] = 0;
-	this.data[12] = -x_axis.dotProduct(eye);
-	this.data[14] = -z_axis.dotProduct(eye);
+	this.data[12] = -(x0 * eyex + x1 * eyey + x2 * eyez);
+	this.data[13] = -(y0 * eyex + y1 * eyey + y2 * eyez);
+	this.data[14] = -(z0 * eyex + z1 * eyey + z2 * eyez);
 	this.data[15] = 1;
-
-	var y_axis = z_axis.crossProduct(x_axis);
-	this.data[1] = y_axis.x;
-	this.data[5] = y_axis.y;
-	this.data[9] = y_axis.z;
-	this.data[13] = -y_axis.dotProduct(eye);
 
 	return this;
 };

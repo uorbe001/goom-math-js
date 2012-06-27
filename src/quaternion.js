@@ -66,6 +66,14 @@ Quaternion.prototype.normalize = function() {
 };
 
 /**
+	Returns the length of this quaternion.
+	@returns {Number} Length of the quaternion.
+*/
+Quaternion.prototype.length = function() {
+	return Math.sqrt(this.r * this.r + this.i * this.i + this.j * this.j + this.k * this.k);
+};
+
+/**
 	Multiplies two quaternions, storing new values on the first one if no destination
 	quaternion is given.
 	@param {Mathematics.Quaternion} quaternion The quaternion to multiply by.
