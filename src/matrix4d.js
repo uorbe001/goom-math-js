@@ -244,7 +244,7 @@ Matrix4D.prototype.makeFrustum = function(left, right, bottom, top, near, far) {
 	this.data[9] = (top + bottom) / delta_y;
 	this.data[10] = -(far + near) / delta_z;
 	this.data[11] = -1;
-	this.data[14] = -n2 * far / delta_z;
+	this.data[14] = (-n2 * far) / delta_z;
 	this.data[15] = 0;
 	return this;
 };
@@ -258,8 +258,9 @@ Matrix4D.prototype.makeFrustum = function(left, right, bottom, top, near, far) {
 	@returns {Mathematics.Matrix4D} this matrix as a perspective projection matrix.
 */
 Matrix4D.prototype.makePerspective = function(field_of_view, near, far, aspect_ratio) {
-	var size = near * Math.tan((field_of_view / (180 * Math.PI)) / 2);
-	return this.makeFrustum(-size, size, -size / aspect_ratio, size / aspect_ratio, near, far);
+	var top = near * Math.tan(field_of_view * Math.PI / 360),
+		right = top * aspect_ratio;
+	return this.makeFrustum(-right, right, -top, top, near, far);
 };
 
 /**
@@ -326,7 +327,7 @@ Matrix4D.prototype.makeFromQuaternion = function(orientation) {
 	@returns {Mathematics.Matrix4D} This matrix.
 */
 Matrix4D.prototype.makeFromPositionAndOrientation = function(position, orientation) {
-	this.data[0] = 1 - (2 * orientation.j * orientation.j + 2 * orientation.k * orientation.k);
+/*	this.data[0] = 1 - (2 * orientation.j * orientation.j + 2 * orientation.k * orientation.k);
 	this.data[1] = 2 * orientation.i * orientation.j - 2 * orientation.k * orientation.r;
 	this.data[2] = 2 * orientation.i * orientation.k + 2 * orientation.j * orientation.r;
 	this.data[3] = 0;
@@ -337,6 +338,24 @@ Matrix4D.prototype.makeFromPositionAndOrientation = function(position, orientati
 	this.data[8] = 2 * orientation.i * orientation.k - 2 * orientation.j * orientation.r;
 	this.data[9] = 2 * orientation.j * orientation.k + 2 * orientation.i * orientation.r;
 	this.data[10] = 1 - (2 * orientation.i * orientation.i + 2 * orientation.j * orientation.j);
+	this.data[11] = 0;
+	this.data[12] = position.x;
+	this.data[13] = position.y;
+	this.data[14] = position.z;
+	this.data[15] = 1;
+*/
+
+	this.data[0] = 1 - (orientation.j * 2 * orientation.j + orientation.k * 2 * orientation.k);
+	this.data[1] = (orientation.i * (orientation.j * 2)) + (orientation.r * (2 * orientation.k));
+	this.data[2] = orientation.i * 2 * orientation.k - orientation.r * 2 * orientation.j;
+	this.data[3] = 0;
+	this.data[4] = orientation.i * 2 * orientation.j - orientation.r * 2 * orientation.k;
+	this.data[5] = 1 - (orientation.i * 2 * orientation.i + orientation.k * 2 * orientation.k);
+	this.data[6] = orientation.j * 2 * orientation.k + orientation.r * 2 * orientation.i;
+	this.data[7] = 0;
+	this.data[8] = orientation.i * 2 * orientation.k + orientation.r * 2 * orientation.j;
+	this.data[9] = orientation.j * 2 * orientation.k - orientation.r * 2 * orientation.i;
+	this.data[10] = 1 - (orientation.i * 2 * orientation.i + orientation.j * 2 * orientation.j);
 	this.data[11] = 0;
 	this.data[12] = position.x;
 	this.data[13] = position.y;

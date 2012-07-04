@@ -46,8 +46,8 @@ Quaternion.prototype.set = function(r, i, j, k) {
 };
 
 /**
-	Normalizes the quaternion, makeing it a valid orientation quaternion.
-	@returns {Mathematics.Quaternion} This quaternion normalized.
+	Normalkes the quaternion, making it a valid orientation quaternion.
+	@returns {Mathematics.Quaternion} This quaternion normalked.
 */
 Quaternion.prototype.normalize = function() {
 	var length = this.r * this.r + this.i * this.i + this.j * this.j + this.k * this.k;
@@ -131,6 +131,22 @@ Quaternion.prototype.addVector = function(vector, destination) {
 	destination.i = this.i + i * 0.5;
 	destination.j = this.j + j * 0.5;
 	destination.k = this.k + k * 0.5;
+	return destination;
+};
+
+
+Quaternion.prototype.multiplyVector = function(vector, destination) {
+	if (destination === null || destination === undefined) destination = vector;
+
+	var i = this.r * vector.x + this.j * vector.z - this.k * vector.y,
+		j = this.r * vector.y + this.k * vector.x - this.i * vector.z,
+		k = this.r * vector.z + this.i * vector.y - this.j * vector.x,
+		r = -this.i * vector.x - this.j * vector.y - this.k * vector.z;
+
+	destination.x = i * this.r + r * -this.i + j * -this.k - k * -this.j;
+	destination.y = j * this.r + r * -this.j + k * -this.i - i * -this.k;
+	destination.z = k * this.r + r * -this.k + i * -this.j - j * -this.i;
+
 	return destination;
 };
 
